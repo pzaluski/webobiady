@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Web Obiady</title>
+
+        {% block styling %}
+            <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        {% endblock styling %}
+
+    </head>
+    <body>
+        <div class="container">
+            <h1>Witaj w Web Obiady</h1>
+            <p>Dzisiaj zamawiamy z restauracji: <span>{{ restaurant_name }}</span><br />
+            Dopłata za dowóz wynosi: <span>{{ delivery_price }} zł</span><br />
+            Zamówienia można składać do godziny: <span>{{ order_final_hour }}</span><br />
+            Przewidywana dostawa: {{ delivery_desc }} <br />
+            <a href="{{ menu_url }}" target="_blank">Przejdź do menu &raquo;</a></p>
+            <p> <a href="#">Złóż zamówienie &raquo;</a> </p>
+        </div>
+
+
+    {% block javascript %}
+        <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    {% endblock javascript %}
+    </body>
+</html>
