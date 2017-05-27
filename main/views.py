@@ -1,20 +1,30 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from orders.models import OrderSettings
 import random
+from datetime import date
+from restaurants.models import Restaurant
 
 def home(request):
-    dctRender = {
-        'restaurant_name': 'Trafico',
-        'delivery_price': 1,
-        'order_final_hour': '11:00',
-        'menu_url':'http://trafico.pl',
-        'delivery_desc':getTerminDostawy(),
-    }
+    try:
+        os = OrderSettings.objects.get(order_date = date.today())
+
+        dctRender = {
+            'restaurant_name': os.restaurant.name,
+            'delivery_price': os.restaurant.delivery_price,
+            'order_deadline': os.order_deadline,
+            'menu_url': os.restaurant.menu_url,
+            'delivery_desc': getDeliveryDesc(),
+        }
+    except:
+        dctRender = {
+        }
+
     return render(request, "main/home.html", dctRender)
 
-def getTerminDostawy():
-    tupTermin = (
+def getDeliveryDesc():
+    delivery = (
         'już zjedzone',
         'będzie dzisiaj',
         'jak najszybciej',
@@ -25,5 +35,5 @@ def getTerminDostawy():
         'nie bądź taki dociekliwy',
         'sio wścibolu',
     )
-    termin = random.choice(tupTermin)
-    return termin
+    d = random.choice(delivery)
+    return d

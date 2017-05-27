@@ -9,6 +9,9 @@ class OrderSettings(models.Model):
     purchaser = models.ForeignKey(User, related_name="purchaser")
     order_date = models.DateField()
 
+    def __str__(self):
+        return '{0} - {1}'.format(self.order_date.strftime("%d.%m.%Y"), self.restaurant.name)
+
 class Order(models.Model):
     ORDER_STATUS = (
         ('NEW', 'Nowe'),
@@ -24,4 +27,4 @@ class Order(models.Model):
     user = models.ForeignKey(User)
 
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name + ': ' + self.description + ' ' + str(self.total_price)
+        return '{0} {1}: {2} {3}'.format(self.user.first_name, self.user.last_name, self.description, self.total_price)
