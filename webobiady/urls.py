@@ -21,7 +21,7 @@ from main import views as main_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', main_views.home),
+    url(r'^$', main_views.home, name='webobiady_home'),
 ]
 
 # auth urls

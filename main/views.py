@@ -10,18 +10,15 @@ def home(request):
     try:
         os = OrderSettings.objects.get(order_date = date.today())
 
-        dctRender = {
-            'restaurant_name': os.restaurant.name,
-            'delivery_price': os.restaurant.delivery_price,
-            'order_deadline': os.order_deadline,
-            'menu_url': os.restaurant.menu_url,
+        context = {
+            'os': os,
             'delivery_desc': getDeliveryDesc(),
         }
     except:
-        dctRender = {
+        context = {
         }
 
-    return render(request, "main/home.html", dctRender)
+    return render(request, "main/home.html", context)
 
 def getDeliveryDesc():
     delivery = (

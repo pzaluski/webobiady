@@ -1,29 +1,19 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="pl">
-    <head>
-        <title>Web Obiady</title>
+{% extends "base.html" %}
 
-        {% block styling %}
-            <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-        {% endblock styling %}
+{% block content %}
 
-    </head>
-    <body>
-        <div class="container">
-            <h1>Witaj w Web Obiady</h1>
-            <p>Dzisiaj zamawiamy z restauracji: <span>{{ restaurant_name }}</span><br />
-            Dopłata za dowóz wynosi: <span>{{ delivery_price }} zł</span><br />
-            Zamówienia można składać do godziny: <span>{{ order_deadline }}</span><br />
-            Przewidywana dostawa: {{ delivery_desc }} <br />
-            <a href="{{ menu_url }}" target="_blank">Przejdź do menu &raquo;</a></p>
-            <p> <a href="#">Złóż zamówienie &raquo;</a> </p>
-        </div>
+    {% if user.is_authenticated %}
+        <h1>{{ user.username }}, witaj w WebObiady!</h1>
+        <h2><a href="{% url 'webobiady_logout' %}">Wyloguj się!</a></h2>
+    {% else %}
+        <h1>Witaj w WebObiady!</h1>
+        <h2><a href="{% url 'webobiady_login' %}">Zaloguj się!</a></h2>
+    {% endif %}
+    <p>Dzisiaj zamawiamy z restauracji: <span>{{ os.restaurant.name }}</span><br />
+    Dopłata za dowóz wynosi: <span>{{ os.restaurant.delivery_price }} zł</span><br />
+    Zamówienia można składać do godziny: <span>{{ os.order_deadline }}</span><br />
+    Przewidywana dostawa: {{ delivery_desc }} <br />
+    <a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></p>
+    <p> <a href="#">Złóż zamówienie &raquo;</a> </p>
 
-
-    {% block javascript %}
-        <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
-        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-    {% endblock javascript %}
-    </body>
-</html>
+{% endblock content %}
