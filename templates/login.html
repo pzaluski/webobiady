@@ -1,16 +1,23 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% load crispy_forms_tags %}
 
+{% block title %}
+    Zaloguj się
+{% endblock title %}
+
+{% block content %}
+    <div class="well col-md-6">
     {% if form.errors %}
         <p class="text-warning">Niepoprawny login lub hasło</p>
     {% endif %}
 
     <form class="form-horizontal" method="post" action="{% url 'webobiady_login' %}">
         {% csrf_token %}
-        {{ form }}
+        {{ form|crispy }}
         <input class="btn btn-primary" type="submit" value="Zaloguj się" />
         <input type="hidden" name="next" value="{{ next }}" />
     </form>
+    </div>
 
 {% endblock content %}

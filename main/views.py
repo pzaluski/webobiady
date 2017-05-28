@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
-from orders.models import OrderSettings
 import random
 from datetime import date
-from restaurants.models import Restaurant
+
+from django.shortcuts import render
+
+from orders.models import OrderSettings
+
 
 def home(request):
     try:
-        os = OrderSettings.objects.get(order_date = date.today())
+        os = OrderSettings.objects.get(order_date=date.today())
 
         context = {
             'os': os,

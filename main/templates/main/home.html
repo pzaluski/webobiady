@@ -1,19 +1,21 @@
 {% extends "base.html" %}
 
+{% block title %}
+    {% if user.is_authenticated %}
+        {{ user.username }}, witaj w WebObiady!
+    {% else %}
+        Witaj w WebObiady!
+    {% endif %}
+{% endblock title %}
+
 {% block content %}
 
-    {% if user.is_authenticated %}
-        <h1>{{ user.username }}, witaj w WebObiady!</h1>
-        <h2><a href="{% url 'webobiady_logout' %}">Wyloguj się!</a></h2>
-    {% else %}
-        <h1>Witaj w WebObiady!</h1>
-        <h2><a href="{% url 'webobiady_login' %}">Zaloguj się!</a></h2>
-    {% endif %}
-    <p>Dzisiaj zamawiamy z restauracji: <span>{{ os.restaurant.name }}</span><br />
-    Dopłata za dowóz wynosi: <span>{{ os.restaurant.delivery_price }} zł</span><br />
-    Zamówienia można składać do godziny: <span>{{ os.order_deadline }}</span><br />
-    Przewidywana dostawa: {{ delivery_desc }} <br />
-    <a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></p>
-    <p> <a href="#">Złóż zamówienie &raquo;</a> </p>
+        <p>Dzisiaj zamawiamy z restauracji: <span>{{ os.restaurant.name }}</span><br />
+        Dopłata za dowóz wynosi: <span>{{ os.restaurant.delivery_price }} zł</span><br />
+        Zamówienia można składać do godziny: <span>{{ os.order_deadline }}</span><br />
+        Przewidywana dostawa: {{ delivery_desc }} <br />
+        <a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></p>
+        <p> <a href="{% url 'order_form' %}">Złóż zamówienie &raquo;</a> </p>
+
 
 {% endblock content %}

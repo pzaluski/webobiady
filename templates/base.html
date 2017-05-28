@@ -2,20 +2,60 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <title>Web Obiady</title>
+        <title>WebObiady</title>
 
         {% block styling %}
             <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+            <link rel="stylesheet" href="{% static 'style.css' %}">
         {% endblock styling %}
 
     </head>
     <body>
+        <nav class="navbar navbar-default webobiady-navbar">
+            <div class="navbar-inner">
+                <div class="navbar-left">
+                    <a href="{% url 'webobiady_home' %}" class="navbar-brand"><i class="glyphicon glyphicon-home"></i></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-right nav navbar-nav">
+                        {% if user.is_authenticated %}
+                            <li><a href="#">Twoje zamówienia</a></li>
+                            <li><a href="{% url 'webobiady_logout' %}">Wyloguj się</a></li>
+                        {% else %}
+                            <li><a href="{% url 'webobiady_login' %}">Logowanie</a></li>
+                            <li><a href="#">Rejestracja</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="jumbotron webobiady-jumbotron">
+            <div class="col-md-offset-1 col-md-4">
+                <a href="{% url 'webobiady_home' %}"><img src="{% static 'images/burger.png' %}" alt="" /></a>
+            </div>
+            <div class="col-md-7">
+                <h1>WebObiady!<span class="h1-text"> <br />Zamów obiad na dziś!</span></h1>
+            </div>
+
+            <!-- <img src="{% static 'images/pizza.png' %}" alt="" /> -->
+        </div>
+
+
         <div class="container">
+            <div class="page-header">
+                <h2>
+                    {% block title %}
+                    {% endblock title %}
+                </h2>
+            </div>
+
             {% block content %}
             {% endblock content %}
         </div>
 
+    <footer>
 
+    </footer>
     {% block javascript %}
         <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>

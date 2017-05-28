@@ -1,0 +1,30 @@
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.webobiady-navbar a.navbar-brand:hover,
+ .webobiady-navbar .navbar-nav li a:hover {
+    color: #40b701;
+}
+
+.webobiady-jumbotron {
+    padding: 30px;
+    background: #ffbf60;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    overflow: auto;
+    margin: 0;
+}
+
+.webobiady-jumbotron h1 .h1-text {
+    color: #fff;
+    font-size: 35px;
+    padding-top: 10px;
+    display: block;
+}
+
+h2 {
+    color: #3cab01;
+    /*font-family: "Times New Roman", Times, serif;*/
+    font-size: 32px;
+}
