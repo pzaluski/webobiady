@@ -10,15 +10,24 @@
 
 <div class="container col-md-6">
     {% if form.errors %}
-        <p class="text-warning">Niepoprawny login lub hasło</p>
+        <p class="text-danger">Niepoprawny login lub hasło</p>
     {% endif %}
 
-    <form class="form-horizontal" method="post" action="{% url 'webobiady_login' %}">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input class="btn btn-success" type="submit" value="Zaloguj się" />
-        <input type="hidden" name="next" value="{{ next }}" />
-    </form>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Zaloguj się, żeby złożyć zamówienie</div>
+        <form method="post" action="{% url 'webobiady_login' %}">
+            <div class="panel-body">
+                <div class="col-md-6">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                </div>
+            </div>
+            <div class="panel-footer wo-panel-footer">
+                <input class="btn btn-success" type="submit" value="Zaloguj się &raquo;" />
+                <input type="hidden" name="next" value="{{ next }}" />
+            </div>
+        </form>
+    </div>
 </div>
 
 

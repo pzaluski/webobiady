@@ -14,17 +14,21 @@
         </div>
     {% else %}
     <div class="panel panel-primary">
-        <div class="panel-heading"><p>Złóż zamówienie w restauracji {{ form.instance.settings.restaurant.name }}</p></div>
+        <div class="panel-heading">Złóż zamówienie w restauracji {{ form.instance.settings.restaurant.name }}</div>
+
+        <form action="" method="post">
         <div class="panel-body">
             <div class="col-md-6">
 
-            <form action="" method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button class="btn btn-success"  type="submit">Wyślij</button>
-            </form>
+
             </div>
         </div>
+        <div class="panel-footer wo-panel-footer">
+            <button class="btn btn-success"  type="submit">Wyślij &raquo;</button>
+        </div>
+        </form>
     </div>
     {% endif %}
 
