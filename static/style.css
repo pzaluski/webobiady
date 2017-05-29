@@ -1,14 +1,15 @@
 body {
     font-family:Arial, Helvetica, sans-serif;
     font-size: 14px;
+    color: #333;
 }
 
-.webobiady-navbar a.navbar-brand:hover,
- .webobiady-navbar .navbar-nav li a:hover {
+.wo-navbar a.navbar-brand:hover,
+ .wo-navbar .navbar-nav li a:hover {
     color: #3b85bf;
 }
 
-.webobiady-jumbotron {
+.wo-jumbotron {
     padding: 30px;
     background: #3b85bf /*#ffbf60*/;
     font-family: "Comic Sans MS", cursive, sans-serif;
@@ -16,11 +17,20 @@ body {
     margin: 0;
 }
 
-.webobiady-jumbotron h1 .h1-text {
+.wo-jumbotron h1 .h1-text {
     color: #fff;
     font-size: 35px;
     padding-top: 10px;
     display: block;
+}
+
+.wo-jumbotron h1 .h1-text a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.wo-panel-footer {
+    text-align: center;
 }
 
 h2 {

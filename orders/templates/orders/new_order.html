@@ -7,20 +7,25 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="row">
-        {% if no_settings %}
-            <div class="alert alert-warning">
-                <p>Nie można jeszcze składać zamówień</p>
-            </div>
-        {% else %}
-        <div class="well col-md-6">
-            <p>Złóż zamówienie w restauracji {{ form.instance.settings.restaurant.name }}</p>
+
+    {% if no_settings %}
+        <div class="alert alert-warning">
+            <p>Nie można jeszcze składać zamówień</p>
+        </div>
+    {% else %}
+    <div class="panel panel-primary">
+        <div class="panel-heading"><p>Złóż zamówienie w restauracji {{ form.instance.settings.restaurant.name }}</p></div>
+        <div class="panel-body">
+            <div class="col-md-6">
+
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit">Wyślij</button>
+                <button class="btn btn-success"  type="submit">Wyślij</button>
             </form>
+            </div>
         </div>
-        {% endif %}
     </div>
+    {% endif %}
+
 {% endblock content %}

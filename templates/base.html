@@ -11,7 +11,7 @@
 
     </head>
     <body>
-        <nav class="navbar navbar-default webobiady-navbar">
+        <nav class="navbar navbar-default wo-navbar">
             <div class="navbar-inner">
                 <div class="navbar-left">
                     <a href="{% url 'webobiady_home' %}" class="navbar-brand"><i class="glyphicon glyphicon-home"></i></a>
@@ -29,12 +29,12 @@
                 </div>
             </div>
         </nav>
-        <div class="jumbotron webobiady-jumbotron">
+        <div class="jumbotron wo-jumbotron">
             <div class="col-md-offset-1 col-md-4">
                 <a href="{% url 'webobiady_home' %}"><img src="{% static 'images/burger.png' %}" alt="" /></a>
             </div>
             <div class="col-md-7">
-                <h1>WebObiady!<span class="h1-text"> <br />Zamów obiad na dziś!</span></h1>
+                <h1>WebObiady!<span class="h1-text"> <br /><a href="{% url 'order_form' %}">Zamów obiad na dziś!</a></span></h1>
             </div>
 
             <!-- <img src="{% static 'images/pizza.png' %}" alt="" /> -->
