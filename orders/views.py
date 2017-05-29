@@ -20,7 +20,7 @@ def new_order(request):
             new_order = form.save(commit=False)
             new_order.total_price = new_order.price + new_order.settings.restaurant.delivery_price
             new_order.save()
-            return redirect('webobiady_home')
+            return redirect('user_home')
     else:
         form = OrderForm(instance=order)
     return render(request, "orders/new_order.html", {'form': form})
