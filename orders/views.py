@@ -9,8 +9,11 @@ from .models import Order, OrderSettings
 
 @login_required
 def new_order(request):
-    os = OrderSettings.objects.get(order_date=date.today())
-    order = Order(user=request.user, settings=os, total_price=0)
+    try:
+        os = OrderSettings.objects.get(order_date=date.today())
+        order = Order(user=request.user, settings=os, total_price=0)
+    except:
+        return render(request, "orders/new_order.html", {'form': OrderForm(), 'no_settings': 1})
     if request.method == 'POST':
         form = OrderForm(data=request.POST, instance=order)
         if form.is_valid():

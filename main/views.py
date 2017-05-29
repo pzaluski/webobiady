@@ -16,6 +16,7 @@ def home(request):
         }
     except:
         context = {
+            'no_settings': 1
         }
 
     return render(request, "main/home.html", context)

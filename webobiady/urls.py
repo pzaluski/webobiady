@@ -22,7 +22,8 @@ from main import views as main_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', main_views.home, name='webobiady_home'),
-    url(r'^orders/', include('orders.urls'))
+    url(r'^orders/', include('orders.urls')),
+    url(r'^user/', include('user.urls')),
 ]
 
 # auth urls

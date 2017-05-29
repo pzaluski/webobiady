@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {% if user.is_authenticated %}
-        {{ user.username }}, witaj w WebObiady!
-    {% else %}
-        Witaj w WebObiady!
-    {% endif %}
+    Witaj w WebObiady!
 {% endblock title %}
 
 {% block content %}
-
+    {% if no_settings %}
+        <div class="alert alert-warning">
+            <p>Dzisiaj nie można jeszcze składać zamówień</p>
+        </div>
+    {% else %}
         <p>Dzisiaj zamawiamy z restauracji: <span>{{ os.restaurant.name }}</span><br />
         Dopłata za dowóz wynosi: <span>{{ os.restaurant.delivery_price }} zł</span><br />
         Zamówienia można składać do godziny: <span>{{ os.order_deadline }}</span><br />
         Przewidywana dostawa: {{ delivery_desc }} <br />
         <a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></p>
         <p> <a href="{% url 'order_form' %}">Złóż zamówienie &raquo;</a> </p>
-
+    {% endif %}
 
 {% endblock content %}

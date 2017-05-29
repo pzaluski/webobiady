@@ -5,12 +5,12 @@ body {
 
 .webobiady-navbar a.navbar-brand:hover,
  .webobiady-navbar .navbar-nav li a:hover {
-    color: #40b701;
+    color: #3b85bf;
 }
 
 .webobiady-jumbotron {
     padding: 30px;
-    background: #ffbf60;
+    background: #3b85bf /*#ffbf60*/;
     font-family: "Comic Sans MS", cursive, sans-serif;
     overflow: auto;
     margin: 0;
@@ -24,7 +24,7 @@ body {
 }
 
 h2 {
-    color: #3cab01;
+    color: #3b85bf;
     /*font-family: "Times New Roman", Times, serif;*/
     font-size: 32px;
 }
