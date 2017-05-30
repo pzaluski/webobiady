@@ -1,10 +1,9 @@
-import random
-from datetime import date
-
-from django.shortcuts import render
-
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from orders.models import OrderSettings
 
+import random
+from datetime import date
 
 def home(request):
     try:
@@ -21,6 +20,7 @@ def home(request):
 
     return render(request, "main/home.html", context)
 
+
 def get_delivery():
     delivery = (
         'już zjedzone',
@@ -35,3 +35,5 @@ def get_delivery():
     )
     d = random.choice(delivery)
     return d
+
+

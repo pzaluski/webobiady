@@ -13,11 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+
+from django.conf.urls import (
+    url, include, handler400, handler403, handler404, handler500
+)
+
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.defaults import page_not_found
 
 from main import views as main_views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,3 +43,10 @@ urlpatterns += [
         name='webobiady_logout'),
 
 ]
+
+
+#handler400 = main_views.bad_request
+#handler403 = main_views.permission_denied
+handler404 = page_not_found
+#handler500 = main_views.handler500
+
