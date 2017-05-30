@@ -23,7 +23,7 @@
                             <li><a href="{% url 'webobiady_logout' %}">Wyloguj się</a></li>
                         {% else %}
                             <li><a href="{% url 'webobiady_login' %}">Logowanie</a></li>
-                            <li><a href="#">Rejestracja</a></li>
+                            <li><a href="{% url 'user_register' %}">Rejestracja</a></li>
                         {% endif %}
                     </ul>
                 </div>

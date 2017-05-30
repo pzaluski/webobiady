@@ -12,7 +12,7 @@ def home(request):
 
         context = {
             'os': os,
-            'delivery_desc': getDeliveryDesc(),
+            'delivery_desc': get_delivery(),
         }
     except:
         context = {
@@ -21,7 +21,7 @@ def home(request):
 
     return render(request, "main/home.html", context)
 
-def getDeliveryDesc():
+def get_delivery():
     delivery = (
         'już zjedzone',
         'będzie dzisiaj',

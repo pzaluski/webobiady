@@ -17,8 +17,8 @@
             <ul class="list-group">
                 <li class="list-group-item">Dopłata za dowóz wynosi: <strong>{{ os.restaurant.delivery_price }} zł</strong></li>
                 <li class="list-group-item">Zamówienia można składać do godziny: <strong>{{ os.order_deadline }}</strong></li>
-                <li class="list-group-item">Przewidywana dostawa: {{ delivery_desc }}</li>
-                <li class="list-group-item">Zamawiający: {{ os.purchaser.first_name }} {{ os.purchaser.last_name }}</li>
+                <li class="list-group-item">Przewidywana dostawa: <strong>{{ delivery_desc }}</strong></li>
+                <li class="list-group-item">Zamawiający: <strong>{{ os.purchaser.first_name }} {{ os.purchaser.last_name }}</strong></li>
                 <li class="list-group-item"><a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></li>
               </ul>
         </div>
