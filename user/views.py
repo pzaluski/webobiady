@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from .forms import UserRegisterForm
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from orders.models import Order
 from datetime import date
-from django.views.generic import CreateView
+from django.views.generic import View
 
 
 @login_required
@@ -14,8 +15,8 @@ def home(request):
     return render(request, "user/home.html", {'uo': uo})
 
 
-class UserRegisterView(CreateView):
-    form_class = UserCreationForm
+class UserRegisterView(View):
+    form_class = UserRegisterForm
     template_name = 'user/registration.html'
 
     def get(self, request):
@@ -26,13 +27,9 @@ class UserRegisterView(CreateView):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
-
-            username = form.cleaned_data('username')
-            password = form.cleaned_data('password')
-            user.set_password(password)
-            user.save()
-
+            user = form.save()
+            username = user.username
+            password = user.password
             user = authenticate(username=username, password=password)
 
             if user is not None:
