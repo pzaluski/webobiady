@@ -35,4 +35,5 @@ urlpatterns += [
     url(r'^logout/$', auth_views.logout,
         {'next_page': 'webobiady_home'},
         name='webobiady_logout'),
+
 ]

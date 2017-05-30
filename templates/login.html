@@ -20,10 +20,11 @@
                 <div class="col-md-6">
                     {% csrf_token %}
                     {{ form|crispy }}
+                    <a href="{% url 'reset_password' %}">Zapomniałeś hasła?</a>
                 </div>
             </div>
             <div class="panel-footer wo-panel-footer">
-                <input class="btn btn-success" type="submit" value="Zaloguj się &raquo;" />
+                <input class="btn btn-success" type="submit" value="Zaloguj się" />
                 <input type="hidden" name="next" value="{{ next }}" />
             </div>
         </form>

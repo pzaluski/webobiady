@@ -15,11 +15,16 @@
             <div class="navbar-inner">
                 <div class="navbar-left">
                     <a href="{% url 'webobiady_home' %}" class="navbar-brand"><i class="glyphicon glyphicon-home"></i></a>
+                    {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'user_home' %}">Twoje zamówienia</a></li>
+                    </ul>
+                    {% endif %}
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-right nav navbar-nav">
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'user_home' %}">Twoje zamówienia</a></li>
+                            <li><a href="{% url 'change_password' %}">Zmiana hasła</a></li>
                             <li><a href="{% url 'webobiady_logout' %}">Wyloguj się</a></li>
                         {% else %}
                             <li><a href="{% url 'webobiady_login' %}">Logowanie</a></li>

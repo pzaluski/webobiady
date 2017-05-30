@@ -1,19 +1,34 @@
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+from django.views.generic import View
+
+from .forms import UserRegisterForm
 from orders.models import Order
 from datetime import date
-from django.views.generic import View
 
 
 @login_required
 def home(request):
-    #uo_all = Order.objects.filter(user__username=request.user)
-    #uo_prev = uo_all.exclude(settings__order_date__gte=date.today())
     uo = Order.objects.filter(user__username=request.user).filter(settings__order_date__gte=date.today())
     return render(request, "user/home.html", {'uo': uo})
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('user_home')
+        else:
+            return redirect('change_password')
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form': form}
+        return render(request, 'user/change_password.html', args)
 
 class UserRegisterView(View):
     form_class = UserRegisterForm
@@ -27,13 +42,19 @@ class UserRegisterView(View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            user = form.save()
-            username = user.username
-            password = user.password
+            user = form.save(commit=False)
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            user.set_password(password)
+            user.save()
+
             user = authenticate(username=username, password=password)
 
             if user is not None:
+
                 if user.is_active:
+
                     login(request, user)
                     return redirect('user_home')
 
