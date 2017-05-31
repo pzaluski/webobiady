@@ -8,47 +8,51 @@
 
 
 <div class="panel panel-primary">
-        <div class="panel-heading">Twoje dzisiejsze zamówienia</div>
+    <div class="panel-heading">Twoje dzisiejsze zamówienia</div>
 
-        <div class="panel-body">
-            {% if uo %}
-            <table class="table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Nazwa dania</th>
-                    <th>Cena z dostawą</th>
-                    <th>Status</th>
-                    <th>Zapłacono</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for obj in uo %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ obj.description }}</td>
-                    <td>{{ obj.total_price }}</td>
-                    <td>{{ obj.get_order_status_display }}</td>
-                    <td>
-                        {% if obj.paid %}
-                            <p class="text-success"><i class="glyphicon glyphicon-ok"></i></p>
-                        {% else %}
-                            <p class="text-danger"><i class="glyphicon glyphicon-remove"></i></p>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
+    <div class="panel-body">
+        {% if uo %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Nazwa dania</th>
+                <th>Cena z dostawą</th>
+                <th>Status</th>
+                <th>Zapłacono</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in uo %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ obj.description }}</td>
+                <td>{{ obj.total_price }}</td>
+                <td>{{ obj.get_order_status_display }}</td>
+                <td>
+                    {% if obj.paid %}
+                        <p class="text-success"><i class="glyphicon glyphicon-ok"></i></p>
+                    {% else %}
+                        <p class="text-danger"><i class="glyphicon glyphicon-remove"></i></p>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
 
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            {% else %}
-            <div class="alert alert-warning">
-                <p>Brak zamówień. <a href="{% url 'order_form' %}">Przejdź do formularza &raquo;</a></p>
-            </div>
-            {% endif %}
+        {% else %}
+        <div class="alert alert-warning">
+            <p>Brak zamówień. <a href="{% url 'order_form' %}">Przejdź do formularza &raquo;</a></p>
         </div>
-
+        {% endif %}
     </div>
+
+    <div class="panel-footer wo-panel-footer">
+        <a href="{% url 'order_form' %}" class="btn btn-success"  type="submit">Dodaj zamówienie</a>
+    </div>
+
+</div>
 
 {% endblock content %}

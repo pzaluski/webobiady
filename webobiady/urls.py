@@ -15,12 +15,11 @@ Including another URLconf
 """
 
 from django.conf.urls import (
-    url, include, handler400, handler403, handler404, handler500
+    url, include
 )
-
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.views.defaults import page_not_found
+from django.views.defaults import page_not_found, bad_request, permission_denied, server_error
 
 from main import views as main_views
 
@@ -45,8 +44,8 @@ urlpatterns += [
 ]
 
 
-#handler400 = main_views.bad_request
-#handler403 = main_views.permission_denied
+handler400 = bad_request
+handler403 = permission_denied
 handler404 = page_not_found
-#handler500 = main_views.handler500
+handler500 = server_error
 
