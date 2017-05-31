@@ -21,7 +21,7 @@ class Order(models.Model):
     )
     settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
     description = models.CharField(max_length=400, verbose_name="Nazwa dania")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena", help_text="Cena zamówienia bez dostawy")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena zamówienia bez dostawy")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena z dostawą")
     paid = models.BooleanField(default=False, verbose_name="Zapłacono")
     date_created = models.DateField(auto_now_add=True, verbose_name="Data zamówienia")

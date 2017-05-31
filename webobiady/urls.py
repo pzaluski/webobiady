@@ -23,7 +23,6 @@ from django.views.defaults import page_not_found, bad_request, permission_denied
 
 from main import views as main_views
 
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', main_views.home, name='webobiady_home'),
@@ -48,4 +47,3 @@ handler400 = bad_request
 handler403 = permission_denied
 handler404 = page_not_found
 handler500 = server_error
-
