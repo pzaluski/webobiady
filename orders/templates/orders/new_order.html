@@ -8,11 +8,6 @@
 
 {% block content %}
 
-    {% if no_settings %}
-        <div class="alert alert-warning">
-            <p>Nie można jeszcze składać zamówień</p>
-        </div>
-    {% else %}
     <div class="panel panel-primary">
         <div class="panel-heading">Złóż zamówienie w restauracji {{ form.instance.settings.restaurant.name }}</div>
 
@@ -30,6 +25,5 @@
         </div>
         </form>
     </div>
-    {% endif %}
 
 {% endblock content %}

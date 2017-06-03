@@ -6,11 +6,7 @@
 
 {% block content %}
 
-    {% if no_settings %}
-        <div class="alert alert-warning">
-            <p>Dzisiaj nie można jeszcze składać zamówień</p>
-        </div>
-    {% else %}
+
     <div class="panel panel-primary">
         <div class="panel-heading">Dzisiaj zamawiamy z restauracji: {{ os.restaurant.name }}</div>
         <div class="panel-body">
@@ -18,15 +14,14 @@
                 <li class="list-group-item">Dopłata za dowóz wynosi: <strong>{{ os.restaurant.delivery_price }} zł</strong></li>
                 <li class="list-group-item">Zamówienia można składać do godziny: <strong>{{ os.order_deadline }}</strong></li>
                 <li class="list-group-item">Przewidywana dostawa: <strong>{{ delivery_desc }}</strong></li>
-                <li class="list-group-item">Zamawiający: <strong>{{ os.purchaser.first_name }} {{ os.purchaser.last_name }}</strong></li>
+                <li class="list-group-item">Zamawiający: <strong>{{ os.purchaser.first_name }}</strong></li>
                 <li class="list-group-item"><a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></li>
               </ul>
         </div>
         <div class="panel-footer wo-panel-footer">
-            <p><a class="btn btn-success" href="{% url 'order_form' %}">Złóż zamówienie &raquo;</a></p>
+            <p><a class="btn btn-success" href="{% url 'order_form' %}">Złóż zamówienie</a></p>
         </div>
     </div>
 
-    {% endif %}
 
 {% endblock content %}

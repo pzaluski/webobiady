@@ -8,7 +8,8 @@
             <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
             <link rel="stylesheet" href="{% static 'style.css' %}?{% now 'U' %}">
         {% endblock styling %}
-
+        <meta name="title" content="WebObiady - zamów obiad na dziś">
+        <meta name="keywords" content="webobiady">
     </head>
     <body>
         <nav class="navbar navbar-default wo-navbar">
@@ -22,15 +23,23 @@
                     {% endif %}
                 </div>
                 <div class="navbar-collapse collapse">
+                    {% if user.is_authenticated %}
                     <ul class="navbar-right nav navbar-nav">
-                        {% if user.is_authenticated %}
-                            <li><a href="{% url 'change_password' %}">Zmiana hasła</a></li>
-                            <li><a href="{% url 'webobiady_logout' %}">Wyloguj się</a></li>
-                        {% else %}
-                            <li><a href="{% url 'webobiady_login' %}">Logowanie</a></li>
-                            <li><a href="{% url 'user_register' %}">Rejestracja</a></li>
-                        {% endif %}
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Witaj {{ user.username|capfirst }} <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="{% url 'change_password' %}">Zmiana hasła</a></li>
+                              <li role="separator" class="divider"></li>
+                              <li><a href="{% url 'webobiady_logout' %}">Wyloguj się</a></li>
+                          </ul>
+                        </li>
                     </ul>
+                    {% else %}
+                    <ul class="navbar-right nav navbar-nav">
+                        <li><a href="{% url 'webobiady_login' %}">Logowanie</a></li>
+                        <li><a href="{% url 'user_register' %}">Rejestracja</a></li>
+                    </ul>
+                    {% endif %}
                 </div>
             </div>
         </nav>

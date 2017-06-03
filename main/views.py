@@ -1,22 +1,20 @@
-from django.shortcuts import render, render_to_response
-from django.template import RequestContext
-from orders.models import OrderSettings
-
 import random
-from datetime import date
+
+from django.shortcuts import render
+
+from .utils import get_order_settings
+
 
 def home(request):
-    try:
-        os = OrderSettings.objects.get(order_date=date.today())
-
-        context = {
-            'os': os,
-            'delivery_desc': get_delivery(),
-        }
-    except:
-        context = {
-            'no_settings': 1
-        }
+    purchaser = False
+    os = get_order_settings()
+    if request.user.is_authenticated() and request.user == os.user:
+        purchaser = True
+    context = {
+        'os': os,
+        'purchaser': purchaser,
+        'delivery_desc': get_delivery(),
+    }
 
     return render(request, "main/home.html", context)
 

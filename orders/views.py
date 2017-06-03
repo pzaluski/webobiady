@@ -1,26 +1,40 @@
-from datetime import date
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 
+from main.utils import get_order_settings
 from .forms import OrderForm
-from .models import Order, OrderSettings
+from .models import Order
+
+
+@method_decorator(login_required, name='dispatch')
+class DailyOrdersList(ListView):
+    context_object_name = 'daily_orders'
+    queryset = Order.objects.filter(settings=get_order_settings())
+    template_name = 'orders/daily_orders.html'
 
 
 @login_required
 def new_order(request):
-    try:
-        os = OrderSettings.objects.get(order_date=date.today())
-        order = Order(user=request.user, settings=os, total_price=0)
-    except:
-        return render(request, "orders/new_order.html", {'form': OrderForm(), 'no_settings': 1})
+    os = get_order_settings()
+    order = Order(user=request.user, settings=os, total_price=0)
     if request.method == 'POST':
         form = OrderForm(data=request.POST, instance=order)
         if form.is_valid():
-            new_order = form.save(commit=False)
-            new_order.total_price = new_order.price + new_order.settings.restaurant.delivery_price
-            new_order.save()
+            order = form.save(commit=False)
+            order.total_price = order.price + order.settings.restaurant.delivery_price
+            order.save()
             return redirect('user_home')
     else:
         form = OrderForm(instance=order)
     return render(request, "orders/new_order.html", {'form': form})
+
+
+'''
+@login_required
+def edit_order(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if not request.user == order.user:
+        raise PermissionDenied
+'''

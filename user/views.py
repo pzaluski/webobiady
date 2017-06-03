@@ -1,17 +1,18 @@
-from django.contrib.auth.decorators import login_required
+from datetime import date
+
 from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.views.generic import View
 
-from .forms import UserRegisterForm
 from orders.models import Order
-from datetime import date
+from .forms import UserRegisterForm
 
 
 @login_required
 def home(request):
-    uo = Order.objects.filter(user__username=request.user).filter(settings__order_date__gte=date.today())
+    uo = Order.objects.orders_for_user(user=request.user, order_date=date.today())
     return render(request, "user/home.html", {'uo': uo})
 
 @login_required
@@ -30,6 +31,7 @@ def change_password(request):
         args = {'form': form}
         return render(request, 'user/change_password.html', args)
 
+
 class UserRegisterView(View):
     form_class = UserRegisterForm
     template_name = 'user/registration.html'
@@ -46,6 +48,7 @@ class UserRegisterView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
             user.set_password(password)
             user.save()
 

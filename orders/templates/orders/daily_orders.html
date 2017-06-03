@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Zamówienia
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Lista zamówień</div>
+
+    <div class="panel-body">
+        {% if object_list %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Nazwa dania</th>
+                <th>Cena z dostawą</th>
+                <th>Status</th>
+                <th>Zapłacono</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in object_list %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ obj.description }}</td>
+                <td>{{ obj.total_price }}</td>
+                <td>{{ obj.get_order_status_display }}</td>
+                <td>
+                    {% if obj.paid %}
+                        <p class="text-success"><i class="glyphicon glyphicon-ok"></i></p>
+                    {% else %}
+                        <p class="text-danger"><i class="glyphicon glyphicon-remove"></i></p>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+        {% else %}
+        <div class="alert alert-warning">
+            <p>Brak zamówień.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
