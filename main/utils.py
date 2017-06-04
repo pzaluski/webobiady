@@ -14,7 +14,7 @@ def get_order_settings(order_date=date.today()):
         os = OrderSettings()
         os.order_date = order_date
         os.restaurant = Restaurant.objects.get(name="Zagrycha")
-        os.purchaser = User.objects.get(username="palmira")
+        os.purchaser = User.objects.get(username="mbork")
         os.order_deadline = "10:30"
         os.save()
     return os

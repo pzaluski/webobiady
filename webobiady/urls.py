@@ -18,7 +18,6 @@ from django.conf.urls import (
     url, include
 )
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.views.defaults import page_not_found, bad_request, permission_denied, server_error
 
 from main import views as main_views
@@ -28,18 +27,7 @@ urlpatterns = [
     url(r'^$', main_views.home, name='webobiady_home'),
     url(r'^orders/', include('orders.urls')),
     url(r'^user/', include('user.urls')),
-]
-
-# auth urls
-urlpatterns += [
-    url(r'^login/$', auth_views.login,
-        {'template_name': 'login.html'},
-        name='webobiady_login'),
-
-    url(r'^logout/$', auth_views.logout,
-        {'next_page': 'webobiady_home'},
-        name='webobiady_logout'),
-
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
 
 

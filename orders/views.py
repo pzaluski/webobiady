@@ -29,12 +29,3 @@ def new_order(request):
     else:
         form = OrderForm(instance=order)
     return render(request, "orders/new_order.html", {'form': form})
-
-
-'''
-@login_required
-def edit_order(request, pk):
-    order = get_object_or_404(Order, pk=pk)
-    if not request.user == order.user:
-        raise PermissionDenied
-'''

@@ -9,18 +9,18 @@
 {% block content %}
 
 <div class="container col-md-6">
-    {% if form.errors %}
-        <p class="text-danger">Niepoprawny login lub hasło</p>
-    {% endif %}
 
     <div class="panel panel-primary">
         <div class="panel-heading">Zaloguj się, żeby złożyć zamówienie</div>
-        <form method="post" action="{% url 'webobiady_login' %}">
+
+        <form method="post" action=".">
             <div class="panel-body">
                 <div class="col-md-6">
+
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <a href="{% url 'reset_password' %}">Zapomniałeś hasła?</a>
+                    <a href="{% url 'auth_password_reset' %}">Odzyskaj hasło &raquo;</a><br/>
+                    <a href="{% url 'registration_register' %}">Zarejestruj się &raquo;</a>
                 </div>
             </div>
             <div class="panel-footer wo-panel-footer">
@@ -29,7 +29,6 @@
             </div>
         </form>
     </div>
+
 </div>
-
-
-{% endblock content %}
+{% endblock %}

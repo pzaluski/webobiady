@@ -8,7 +8,7 @@ from .utils import get_order_settings
 def home(request):
     purchaser = False
     os = get_order_settings()
-    if request.user.is_authenticated() and request.user == os.user:
+    if request.user.is_authenticated() and request.user == os.purchaser:
         purchaser = True
     context = {
         'os': os,
