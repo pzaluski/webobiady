@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from restaurants.models import Restaurant
-
+from django.urls import reverse
 
 class OrderSettings(models.Model):
     def_time = datetime.now().replace(hour=10, minute=30, second=0, microsecond=0)
@@ -45,6 +45,9 @@ class Order(models.Model):
     user = models.ForeignKey(User, verbose_name="Zamawiający")
 
     objects = OrdersManager()
+
+    def get_absolute_url(self):
+        return reverse('order_details', kwargs={'pk': self.pk})
 
     def __str__(self):
         return '{0} {1}: {2} {3}'.format(self.user.first_name, self.user.last_name, self.description, self.total_price)

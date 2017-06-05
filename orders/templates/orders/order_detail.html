@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Szczegóły zamówienia
+{% endblock title %}
+
+{% block content %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">{{ order.description }}</div>
+
+        <div class="panel-body">
+
+            <ul class="list-group">
+                <li class="list-group-item">Cena: <strong>{{ order.price }}</strong></li>
+                <li class="list-group-item">Cena z dostawą: <strong>{{ order.total_price }}</strong></li>
+                <li class="list-group-item">Status zamówienia: <strong>{{ order.get_order_status_display }}</strong></li>
+                <li class="list-group-item">Zapłacono:
+                    {% if obj.paid %}
+                        <strong class="text-success">Tak</strong>
+                    {% else %}
+                        <strong class="text-danger">Nie</strong>
+                    {% endif %}
+                </li>
+            </ul>
+
+        </div>
+        <div class="panel-footer wo-panel-footer">
+            <form action="{% url 'order_delete' order.id %}" method="post">
+                {% csrf_token %}
+                <a class="btn btn-success" href="{% url 'order_update' order.id %}">Edycja</a>
+                <button type="submit" class="btn btn-danger">Usuń</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

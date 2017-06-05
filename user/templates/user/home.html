@@ -20,21 +20,28 @@
                 <th>Cena z dostawą</th>
                 <th>Status</th>
                 <th>Zapłacono</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for obj in uo %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ obj.description }}</td>
+                <td><a href="{{ obj.get_absolute_url }}">{{ obj.description }}</td>
                 <td>{{ obj.total_price }}</td>
                 <td>{{ obj.get_order_status_display }}</td>
                 <td>
                     {% if obj.paid %}
-                        <p class="text-success"><i class="glyphicon glyphicon-ok"></i></p>
+                        <p class="text-success">Tak</p>
                     {% else %}
-                        <p class="text-danger"><i class="glyphicon glyphicon-remove"></i></p>
+                        <p class="text-danger">Nie</p>
                     {% endif %}
+                </td>
+                <td>
+                    <form action="{% url 'order_delete' obj.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
