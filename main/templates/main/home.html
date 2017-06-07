@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
+
 {% block title %}
-    Witaj w WebObiady!
+    Witaj w WebObiady - dzisiaj {{ os.restaurant.name }}!
 {% endblock title %}
 
 {% block content %}
 
 
     <div class="panel panel-primary">
-        <div class="panel-heading">Dzisiaj zamawiamy z restauracji: {{ os.restaurant.name }}</div>
+        <div class="panel-heading">Szczegóły zamówienia</div>
         <div class="panel-body">
             <ul class="list-group">
+                <li class="list-group-item">Restauracja: <strong>{{ os.restaurant.name }}</strong></li>
                 <li class="list-group-item">Dopłata za dowóz wynosi: <strong>{{ os.restaurant.delivery_price }} zł</strong></li>
                 <li class="list-group-item">Zamówienia można składać do godziny: <strong>{{ os.order_deadline }}</strong></li>
                 <li class="list-group-item">Przewidywana dostawa: <strong>{{ delivery_desc }}</strong></li>

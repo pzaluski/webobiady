@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import reverse
-from django.http import HttpResponseRedirect
+
 from main.utils import get_order_settings
-from .forms import OrderForm
 from .models import Order
 
 
@@ -69,20 +69,3 @@ class OrderDelete(DeleteView):
     def get_success_url(self):
         return reverse('user_home')
 
-
-
-'''
-@login_required
-def new_order(request):
-    os = get_order_settings()
-    order = Order(user=request.user, settings=os, total_price=0)
-    if request.method == 'POST':
-        form = OrderForm(data=request.POST, instance=order)
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.total_price = order.price + order.settings.restaurant.delivery_price
-            order.save()
-            return redirect('user_home')
-    else:
-        form = OrderForm(instance=order)
-'''

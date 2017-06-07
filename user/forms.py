@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from .models import Profile
+
 
 class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField(required=True)
@@ -17,3 +19,9 @@ class UserRegisterForm(forms.ModelForm):
             'email',
         )
 
+
+class ProfileEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('is_purchaser')

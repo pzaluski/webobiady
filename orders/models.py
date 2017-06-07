@@ -1,19 +1,16 @@
-from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
-
-from restaurants.models import Restaurant
 from django.urls import reverse
 
-class OrderSettings(models.Model):
-    def_time = datetime.now().replace(hour=10, minute=30, second=0, microsecond=0)
+from restaurants.models import Restaurant
 
+
+class OrderSettings(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     order_deadline = models.TimeField(verbose_name="Termin składania zamówień", default="10:30")
     purchaser = models.ForeignKey(User, related_name="purchaser", verbose_name="Kupujący")
-    order_date = models.DateField()
+    order_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return '{0} - {1}'.format(self.order_date.strftime("%d.%m.%Y"), self.restaurant.name)

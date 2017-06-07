@@ -30,6 +30,7 @@ def get_delivery():
         'kiedyś będzie',
         'nie bądź taki dociekliwy',
         'sio wścibolu',
+        'jak przyjedzie to będzie',
     )
     d = random.choice(delivery)
     return d

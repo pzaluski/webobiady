@@ -38,3 +38,7 @@ h2 {
     /*font-family: "Times New Roman", Times, serif;*/
     font-size: 32px;
 }
+
+.wo-page-header {
+    margin-top: 20px;
+}

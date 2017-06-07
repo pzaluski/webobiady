@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Twoje dzisiejsze zamówienia" "user_home" %}
+    {% breadcrumb order.description "order_details" %}
+{% endblock %}
+
 {% block title %}
     Szczegóły zamówienia
 {% endblock title %}
