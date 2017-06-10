@@ -4,7 +4,11 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Twoje dzisiejsze zamówienia" "user_home" %}
+    {% if user.userprofile.is_purchaser %}
+        {% breadcrumb "Dzisiejsze zamówienia" "daily_orders" %}
+    {% else %}
+        {% breadcrumb "Twoje zamówienia" "user_home" %}
+    {% endif %}
     {% breadcrumb "Dane zamówienia"  "order_form" %}
 {% endblock %}
 

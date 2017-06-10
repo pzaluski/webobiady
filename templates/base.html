@@ -20,6 +20,9 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'user_home' %}">Twoje zamówienia</a></li>
                         <li><a href="{% url 'order_form' %}">Dodaj zamówienie</a></li>
+                        {% if user.userprofile.is_purchaser %}
+                        <li><a href="{% url 'daily_orders' %}">Dzisiejsze zamówienia</a></li>
+                        {% endif %}
                     </ul>
                     {% endif %}
                 </div>
@@ -82,6 +85,8 @@
     {% block javascript %}
         <script src="{% static 'webobiady/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'webobiady/bootstrap/js/bootstrap.min.js' %}"></script>
+
+        <script src="{% static 'webobiady/main.js' %}"></script>
     {% endblock javascript %}
     </body>
 </html>

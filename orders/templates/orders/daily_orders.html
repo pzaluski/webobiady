@@ -14,28 +14,41 @@
 {% block content %}
 
 <div class="panel panel-primary">
+
     <div class="panel-heading">Lista zamówień</div>
 
+    <form action="" method="">
     <div class="panel-body">
         {% if object_list %}
         <table class="table">
             <thead>
             <tr>
                 <th></th>
-                <th>Nazwa dania</th>
-                <th>Cena z dostawą</th>
-                <th>Status</th>
-                <th>Zapłacono</th>
+                <th class="text-center">Zamawiający</th>
+                <th class="text-center">Nazwa dania</th>
+                <th class="text-center">Cena</th>
+                <th class="text-center">Cena z dostawą</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Zapłacono</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for obj in object_list %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ obj.user.username }}</td>
                 <td>{{ obj.description }}</td>
-                <td>{{ obj.total_price }}</td>
-                <td>{{ obj.get_order_status_display }}</td>
-                <td>
+                <td class="text-right">{{ obj.price }}</td>
+                <td class="text-right">{{ obj.total_price }}</td>
+                <td class="text-center">
+                    <select class="js-status-change" name="order_status_{{ obj.id }}">
+                        {% for c in obj.get_dict_status_choices %}
+                        <option {% if c.selected %} selected="selected" {% endif %} value={{ c.code }}>{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td class="text-center">
                     {% if obj.paid %}
                         <p class="text-success"><i class="glyphicon glyphicon-ok"></i></p>
                     {% else %}
@@ -54,6 +67,8 @@
         </div>
         {% endif %}
     </div>
+
+    </form>
 
 </div>
 {% endblock %}

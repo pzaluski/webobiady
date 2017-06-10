@@ -24,8 +24,9 @@ class OrdersManager(models.Manager):
 class Order(models.Model):
     ORDER_STATUS = (
         ('NEW', 'Nowe'),
-        ('SENT', 'Wysłane'),
         ('ACCEPTED', 'Przyjęte'),
+        ('ORDERED', 'Zamówione'),
+        ('COMPLETED', 'Do odbioru'),
     )
     settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
     description = models.CharField(max_length=400, verbose_name="Nazwa dania")
@@ -42,6 +43,17 @@ class Order(models.Model):
     user = models.ForeignKey(User, verbose_name="Zamawiający")
 
     objects = OrdersManager()
+
+    def get_dict_status_choices(self):
+        dict = []
+        for s in self.ORDER_STATUS:
+            selected = False
+
+            if s[0] == self.order_status:
+                selected = True
+            dict.append({'code': s[0], 'name': s[1], 'selected': selected})
+
+        return dict
 
     def get_absolute_url(self):
         return reverse('order_details', kwargs={'pk': self.pk})

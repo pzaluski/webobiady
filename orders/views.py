@@ -55,17 +55,27 @@ class OrderUpdate(UpdateView):
     def form_valid(self, form):
         os = get_order_settings()
         self.object = form.save(commit=False)
-        self.object.user = self.request.user
         self.object.total_price = self.object.price + os.restaurant.delivery_price
-        self.object.settings = os
         self.object = form.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
 
+@method_decorator(login_required, name='dispatch')
 class OrderDelete(DeleteView):
     model = Order
 
     def get_success_url(self):
         return reverse('user_home')
 
+
+@login_required
+def order_edit(request):
+    if request.method == 'GET':
+        oid = request.GET['id']
+        ostatus = request.GET['status']
+
+        order = Order.objects.get(pk=oid)
+        order.order_status = ostatus
+        order.save()
+    return HttpResponseRedirect(reverse('daily_orders'))
