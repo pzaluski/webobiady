@@ -5,8 +5,8 @@
         <title>WebObiady</title>
 
         {% block styling %}
-            <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-            <link rel="stylesheet" href="{% static 'style.css' %}?{% now 'U' %}">
+            <link rel="stylesheet" href="{% static 'webobiady/bootstrap/css/bootstrap.min.css' %}">
+            <link rel="stylesheet" href="{% static 'webobiady/style.css' %}?{% now 'U' %}">
         {% endblock styling %}
         <meta name="title" content="WebObiady - zamów obiad na dziś">
         <meta name="keywords" content="webobiady">
@@ -46,13 +46,13 @@
         </nav>
         <div class="jumbotron wo-jumbotron">
             <div class="col-md-offset-1 col-md-4">
-                <a href="{% url 'webobiady_home' %}"><img src="{% static 'images/burger.png' %}" alt="" /></a>
+                <a href="{% url 'webobiady_home' %}"><img src="{% static 'webobiady/images/burger.png' %}" alt="" /></a>
             </div>
             <div class="col-md-7">
                 <h1>WebObiady!<span class="h1-text"> <br /><a href="{% url 'order_form' %}">Zamów obiad na dziś!</a></span></h1>
             </div>
 
-            <!-- <img src="{% static 'images/pizza.png' %}" alt="" /> -->
+            <!-- <img src="{% static 'webobiady/images/pizza.png' %}" alt="" /> -->
         </div>
 
         {% load django_bootstrap_breadcrumbs %}
@@ -80,8 +80,8 @@
 
     </footer>
     {% block javascript %}
-        <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
-        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'webobiady/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'webobiady/bootstrap/js/bootstrap.min.js' %}"></script>
     {% endblock javascript %}
     </body>
 </html>

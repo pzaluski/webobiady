@@ -1,15 +1,33 @@
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from main.utils import get_order_settings
+from orders.models import Order
+
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    is_purchaser = models.BooleanField(default=False, verbose_name='Kupujący')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def is_purchaser(self):
+        os = get_order_settings()
+        if os.purchaser == self.user:
+            return True
+        return False
+
+    def get_orders_num(self):
+        cnt = Order.objects.orders_for_user(user=self.user, order_date=date.today()).count()
+        return cnt
 
     def __str__(self):
-        return '{0} - {1}'.format(self.user.username, self.is_purchaser)
+        if self.is_purchaser():
+            p = 'Tak'
+        else:
+            p = 'Nie'
+        return 'Zamawiający: {0} Ilość zamówień: {1}'.format(p, self.get_orders_num())
 
 
 @receiver(post_save, sender=User)
