@@ -3,10 +3,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from main.utils import get_order_settings
 from .models import Order
+from .forms import OrderPurchaserForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -69,13 +70,36 @@ class OrderDelete(DeleteView):
         return reverse('user_home')
 
 
-@login_required
-def order_edit(request):
-    if request.method == 'GET':
-        oid = request.GET['id']
-        ostatus = request.GET['status']
+@method_decorator(login_required, name='dispatch')
+class OrderPurchaserEdit(FormView):
+    model = Order
+    fields = ['order_status', 'paid', 'price']
+    template_name = 'orders/daily_orders.html'
+    form_class = OrderPurchaserForm
 
+    def get_context_data(self, **kwargs):
+        kwargs['object_list'] = Order.objects.filter(settings=get_order_settings())
+        return super().get_context_data(**kwargs)
+
+    #def get_queryset(self):
+    #    return Order.objects.filter(settings=get_order_settings())
+
+    def get_success_url(self):
+        return reverse('daily_orders')
+
+    def post(self, request):
+        op = request.POST['op']
+        oid = request.POST['order_id']
         order = Order.objects.get(pk=oid)
-        order.order_status = ostatus
-        order.save()
-    return HttpResponseRedirect(reverse('daily_orders'))
+        if op == 'status':
+            ostatus = request.POST['status']
+            order.order_status = ostatus
+            order.save()
+        if op == 'paid':
+            if request.POST.get('paid'):
+                opaid = request.POST['paid']
+            else:
+                opaid = False
+            order.paid = opaid
+            order.save()
+        return self.get(request)

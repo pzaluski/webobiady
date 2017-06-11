@@ -55,6 +55,9 @@ class Order(models.Model):
 
         return dict
 
+    def get_delivery_price(self):
+        return self.settings.restaurant.delivery_price
+
     def get_absolute_url(self):
         return reverse('order_details', kwargs={'pk': self.pk})
 

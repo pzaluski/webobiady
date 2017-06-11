@@ -17,7 +17,8 @@
 
     <div class="panel-heading">Lista zamówień</div>
 
-    <form action="" method="">
+
+
     <div class="panel-body">
         {% if object_list %}
         <table class="table">
@@ -27,6 +28,7 @@
                 <th class="text-center">Zamawiający</th>
                 <th class="text-center">Nazwa dania</th>
                 <th class="text-center">Cena</th>
+                <th class="text-center">Dostawa</th>
                 <th class="text-center">Cena z dostawą</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Zapłacono</th>
@@ -40,20 +42,27 @@
                 <td>{{ obj.user.username }}</td>
                 <td>{{ obj.description }}</td>
                 <td class="text-right">{{ obj.price }}</td>
+                <td class="text-right">{{ obj.get_delivery_price }}</td>
                 <td class="text-right">{{ obj.total_price }}</td>
                 <td class="text-center">
-                    <select class="js-status-change" name="order_status_{{ obj.id }}">
-                        {% for c in obj.get_dict_status_choices %}
-                        <option {% if c.selected %} selected="selected" {% endif %} value={{ c.code }}>{{ c.name }}</option>
-                        {% endfor %}
-                    </select>
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="op" value="status" />
+                        <input type="hidden" name="order_id" value="{{ obj.id }}" />
+                        <select class="js-status" name="status">
+                            {% for c in obj.get_dict_status_choices %}
+                            <option {% if c.selected %} selected="selected" {% endif %} value={{ c.code }}>{{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                 </td>
                 <td class="text-center">
-                    {% if obj.paid %}
-                        <p class="text-success"><i class="glyphicon glyphicon-ok"></i></p>
-                    {% else %}
-                        <p class="text-danger"><i class="glyphicon glyphicon-remove"></i></p>
-                    {% endif %}
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="op" value="paid" />
+                        <input type="hidden" name="order_id" value="{{ obj.id }}" />
+                        <input type="checkbox" {% if obj.paid %} checked="checked" {% endif %} name="paid" value="1" class="js-paid" />
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -68,7 +77,7 @@
         {% endif %}
     </div>
 
-    </form>
+
 
 </div>
 {% endblock %}
