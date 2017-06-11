@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', main_views.home, name='webobiady_home'),
     url(r'^orders/', include('orders.urls')),
+    url(r'^restaurants/', include('restaurants.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
