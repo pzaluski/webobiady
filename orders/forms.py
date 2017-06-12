@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Textarea, NumberInput, CheckboxInput
+from django.forms import ModelForm, CheckboxInput
 
 from .models import Order
 
@@ -7,18 +7,14 @@ class OrderForm(ModelForm):
 
     class Meta:
         model = Order
-        fields = ['description', 'price']
-        widgets = {
-            'description': Textarea(attrs={'cols': 10, 'rows': 10}),
-            'price': NumberInput(attrs={'min': 0, 'step': 'any'}),
-        }
+        fields = ['dishes']
 
 
 class OrderPurchaserForm(ModelForm):
 
     class Meta:
         model = Order
-        fields = ['order_status', 'paid', 'price']
+        fields = ['order_status', 'paid']
         widgets = {
             'paid': CheckboxInput()
         }

@@ -4,69 +4,82 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Twoje dzisiejsze zamówienia" "user_home" %}
+    {% breadcrumb "Twoje zamówienie" "user_home" %}
 {% endblock %}
 
 
 {% block title %}
-    Witaj {{ user.username|capfirst }}!
+    Twoje zamówienie
 {% endblock title %}
 
 {% block content %}
 
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Twoje dzisiejsze zamówienia</div>
+    <div class="panel-heading">Szczegóły zamówienia</div>
 
     <div class="panel-body">
         {% if uo %}
+
+        <div class="col-md-6">
         <table class="table">
             <thead>
             <tr>
                 <th></th>
                 <th>Nazwa dania</th>
-                <th>Cena z dostawą</th>
-                <th>Status</th>
-                <th>Zapłacono</th>
-                <th></th>
+                <th>Cena</th>
             </tr>
             </thead>
             <tbody>
-            {% for obj in uo %}
+            {% for obj in uo.dishes.all %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{{ obj.get_absolute_url }}">{{ obj.description }}</td>
-                <td>{{ obj.total_price }}</td>
-                <td>{{ obj.get_order_status_display }}</td>
-                <td>
-                    {% if obj.paid %}
-                        <p class="text-success">Tak</p>
-                    {% else %}
-                        <p class="text-danger">Nie</p>
-                    {% endif %}
-                </td>
-                <td>
-                    <form action="{% url 'order_delete' obj.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Usuń</button>
-                    </form>
-                </td>
+                <td>{{ obj.name }}</td>
+                <td>{{ obj.price }}</td>
             </tr>
             {% endfor %}
 
             </tbody>
         </table>
+        </div>
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">Status: <strong>{{ uo.get_order_status_display }}</strong></li>
+                <li class="list-group-item">Cena zamówienia: <strong>{{ uo.total_price }} zł</strong></li>
+                <li class="list-group-item">Koszt dostawy: <strong>{{ uo.get_delivery_price }} zł</strong></li>
+                <li class="list-group-item">Suma: <strong>{{ uo.sum_price }} zł</strong></li>
+                <li class="list-group-item">Zapłacono:
+                    <strong>
+                        {% if uo.paid %}
+                            <span class="text-success">Tak</span>
+                        {% else %}
+                            <span class="text-danger">Nie</span>
+                        {% endif %}
+                    </strong>
+                </li>
+              </ul>
+        </div>
 
         {% else %}
         <div class="alert alert-warning">
-            <p>Brak zamówień. <a href="{% url 'order_form' %}">Przejdź do formularza &raquo;</a></p>
+            <p>Brak zamówień.</p>
         </div>
         {% endif %}
     </div>
 
+    {% if uo %}
+    <div class="panel-footer wo-panel-footer">
+        <form action="{% url 'order_delete' uo.id %}" method="post">
+            {% csrf_token %}
+            <a href="{{ uo.get_absolute_url }}" class="btn btn-success"  type="submit">Edytuj zamówienie</a>
+            <button type="submit" class="btn btn-danger">Usuń</button>
+        </form>
+    </div>
+    {% else %}
     <div class="panel-footer wo-panel-footer">
         <a href="{% url 'order_form' %}" class="btn btn-success"  type="submit">Dodaj zamówienie</a>
     </div>
+    {% endif %}
 
 </div>
 

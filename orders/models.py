@@ -1,9 +1,8 @@
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
-from restaurants.models import Restaurant
+from restaurants.models import Restaurant, Dish
 
 
 class OrderSettings(models.Model):
@@ -24,25 +23,21 @@ class OrdersManager(models.Manager):
 class Order(models.Model):
     ORDER_STATUS = (
         ('NEW', 'Nowe'),
-        ('ACCEPTED', 'Przyjęte'),
-        ('ORDERED', 'Zamówione'),
+        ('ACCEPTED', 'Zamówione'),
         ('COMPLETED', 'Do odbioru'),
     )
     settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
-    description = models.CharField(max_length=400, verbose_name="Nazwa dania")
-    price = models.DecimalField(
-                                max_digits=10,
-                                decimal_places=2,
-                                verbose_name="Cena zamówienia bez dostawy",
-                                validators=[MinValueValidator(0)]
-                                )
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena z dostawą")
+    dishes = models.ManyToManyField(Dish, default=None, verbose_name="Menu")
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena zamówienia", default=0)
     paid = models.BooleanField(default=False, verbose_name="Zapłacono")
     date_created = models.DateField(auto_now_add=True, verbose_name="Data zamówienia")
     order_status = models.CharField(max_length=10, choices=ORDER_STATUS, default='NEW', verbose_name="Status zamówienia")
     user = models.ForeignKey(User, verbose_name="Zamawiający")
 
     objects = OrdersManager()
+
+    def get_restaurant(self):
+        return self.settings.restaurant
 
     def get_dict_status_choices(self):
         dict = []
@@ -59,9 +54,9 @@ class Order(models.Model):
         return self.settings.restaurant.delivery_price
 
     def get_absolute_url(self):
-        return reverse('order_details', kwargs={'pk': self.pk})
+        return reverse('order_update', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '{0} {1}: {2} {3}'.format(self.user.first_name, self.user.last_name, self.description, self.total_price)
+        return '{0}: {1}'.format(self.user.username, self.total_price)
 
 

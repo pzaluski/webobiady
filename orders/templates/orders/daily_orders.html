@@ -26,10 +26,9 @@
             <tr>
                 <th></th>
                 <th class="text-center">Zamawiający</th>
-                <th class="text-center">Nazwa dania</th>
+                <th class="text-center">Danie</th>
                 <th class="text-center">Cena</th>
                 <th class="text-center">Dostawa</th>
-                <th class="text-center">Cena z dostawą</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Zapłacono</th>
                 <th></th>
@@ -40,10 +39,15 @@
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ obj.user.username }}</td>
-                <td>{{ obj.description }}</td>
-                <td class="text-right">{{ obj.price }}</td>
-                <td class="text-right">{{ obj.get_delivery_price }}</td>
+                <td>{% for dish in obj.dishes.all %}
+                        {{ dish.name }}
+                        {% if not forloop.last %}
+                            <br />
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td class="text-right">{{ obj.total_price }}</td>
+                <td class="text-right">{{ obj.get_delivery_price }}</td>
                 <td class="text-center">
                     <form action="." method="post">
                         {% csrf_token %}

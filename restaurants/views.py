@@ -1,10 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from .models import Restaurant, Category, Dish
-from .forms import ImportMenuForm
 from bs4 import BeautifulSoup
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from .forms import ImportMenuForm
+from .models import Restaurant, Category, Dish
 
 
+@login_required
 def import_menu(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -26,7 +29,7 @@ def import_menu(request):
                 category_name = category_head.find('span').text
 
                 # save data
-                cat, cat_created = Category.objects.get_or_create(name=category_name)
+                cat, cat_created = Category.objects.get_or_create(name=category_name, restaurant=restaurant)
                 dish, dish_created = Dish.objects.get_or_create(name=dish, price=price, restaurant=restaurant)
                 dish.categories.add(cat)
 
