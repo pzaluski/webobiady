@@ -4,6 +4,7 @@ from .models import Order
 
 
 class OrderForm(ModelForm):
+    #dishes = ModelMultipleChoiceField(queryset=Order.dishes)
 
     class Meta:
         model = Order

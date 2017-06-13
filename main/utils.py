@@ -23,5 +23,6 @@ def get_order_settings():
         except ObjectDoesNotExist:
             os.purchaser = User.objects.get(is_superuser=True)
         os.order_deadline = "10:30"
+        os.order_date = datetime.now()
         os.save()
     return os

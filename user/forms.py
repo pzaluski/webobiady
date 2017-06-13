@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import UserProfile
 
 
 class UserRegisterForm(forms.ModelForm):
@@ -23,5 +23,6 @@ class UserRegisterForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
 
     class Meta:
-        model = Profile
-        fields = ('is_purchaser')
+        model = UserProfile
+        fields = ('is_purchaser',)
+

@@ -45,9 +45,9 @@
         <div class="col-md-6">
             <ul class="list-group">
                 <li class="list-group-item">Status: <strong>{{ uo.get_order_status_display }}</strong></li>
-                <li class="list-group-item">Cena zamówienia: <strong>{{ uo.total_price }} zł</strong></li>
+                <li class="list-group-item">Cena zamówienia: <strong>{{ uo.price }} zł</strong></li>
                 <li class="list-group-item">Koszt dostawy: <strong>{{ uo.get_delivery_price }} zł</strong></li>
-                <li class="list-group-item">Suma: <strong>{{ uo.sum_price }} zł</strong></li>
+                <li class="list-group-item">Suma: <strong>{{ uo.total_price }} zł</strong></li>
                 <li class="list-group-item">Zapłacono:
                     <strong>
                         {% if uo.paid %}

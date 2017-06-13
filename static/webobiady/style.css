@@ -29,6 +29,10 @@ body {
     text-decoration: none;
 }
 
+.wo-panel-body .selectmultiple {
+    height: 400px;
+}
+
 .wo-panel-footer {
     text-align: center;
 }

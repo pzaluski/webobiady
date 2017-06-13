@@ -19,7 +19,6 @@ class DailyOrdersList(ListView):
         return Order.objects.filter(settings=get_order_settings())
 
 
-
 @method_decorator(login_required, name='dispatch')
 class OrderCreate(CreateView):
     model = Order
@@ -33,10 +32,10 @@ class OrderCreate(CreateView):
         order = form.save(commit=False)
         order.settings = os
         order.user = self.request.user
-        order.total_price = 0
+        order.price = 0
         order = form.save()
         for dish in order.dishes.all():
-            order.total_price = order.total_price + dish.price
+            order.price = order.price + dish.price
         order.save()
 
         return HttpResponseRedirect(self.get_success_url())
@@ -52,8 +51,9 @@ class OrderUpdate(UpdateView):
 
     def form_valid(self, form):
         order = form.save()
+        order.price = 0
         for dish in order.dishes.all():
-            order.total_price = order.total_price + dish.price
+            order.price = order.price + dish.price
         order.save()
 
         return HttpResponseRedirect(self.get_success_url())
