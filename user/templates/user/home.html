@@ -14,6 +14,11 @@
 
 {% block content %}
 
+{% if not edit %}
+<div class="alert alert-danger">
+    Nie można już dodawać zamówień
+</div>
+{% endif %}
 
 <div class="panel panel-primary">
     <div class="panel-heading">Szczegóły zamówienia</div>
@@ -67,22 +72,24 @@
         {% endif %}
     </div>
 
-    {% if uo %}
-    <div class="panel-footer wo-panel-footer">
-        <form action="{% url 'order_delete' uo.id %}" method="post">
-            {% csrf_token %}
-            <a data-toggle="modal" data-target="#menuModal" href="{{ uo.get_absolute_url }}" class="btn btn-success"  type="submit">Edytuj zamówienie</a>
-            <button type="submit" class="btn btn-danger">Usuń</button>
-        </form>
-    </div>
+    {% if edit %}
+        {% if uo %}
+        <div class="panel-footer wo-panel-footer">
+            <form action="{% url 'order_delete' uo.id %}" method="post">
+                {% csrf_token %}
+                <a data-toggle="modal" data-target="#menuModal" href="{{ uo.get_absolute_url }}" class="btn btn-success"  type="submit">Edytuj zamówienie</a>
+                <button type="submit" class="btn btn-danger">Usuń</button>
+            </form>
+        </div>
 
-    {% else %}
-    <div class="panel-footer wo-panel-footer">
-        <a data-toggle="modal" data-target="#menuModal" href="{% url 'order_form' %}" class="btn btn-success"  type="submit">Dodaj zamówienie</a>
-    </div>
+        {% else %}
+        <div class="panel-footer wo-panel-footer">
+            <a data-toggle="modal" data-target="#menuModal" href="{% url 'order_form' %}" class="btn btn-success"  type="submit">Dodaj zamówienie</a>
+        </div>
+        {% endif %}
+
+        {% include "orders/order_modal.html" %}
     {% endif %}
-
-    {% include "orders/order_modal.html" %}
 </div>
 
 {% endblock content %}

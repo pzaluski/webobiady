@@ -17,9 +17,9 @@
 
     <div class="panel-heading">Lista zamówień</div>
 
-
+    {% if object_list %}
     <div class="panel-body">
-        {% if object_list %}
+
         <table class="table">
             <thead>
             <tr>
@@ -72,13 +72,20 @@
 
             </tbody>
         </table>
+        </div>
+
+        <div class="panel-footer wo-panel-footer">
+            <a href="#" class="btn btn-success" type="submit">Zamówione</a>
+        </div>
 
         {% else %}
-        <div class="alert alert-warning">
-            <p>Brak zamówień.</p>
+        <div class="panel-body">
+            <div class="alert alert-warning">
+                <p>Brak zamówień.</p>
+            </div>
         </div>
         {% endif %}
-    </div>
+
 
 
 
