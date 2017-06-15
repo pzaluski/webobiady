@@ -19,7 +19,6 @@
                     {% if user.is_authenticated %}
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'user_home' %}">Twoje zamówienie</a></li>
-                        <li><a href="{% url 'order_form' %}">Dodaj zamówienie</a></li>
                         {% if user.userprofile.is_purchaser %}
                         <li><a href="{% url 'daily_orders' %}">Dzisiejsze zamówienia</a></li>
                         {% endif %}
@@ -56,7 +55,7 @@
                 <a href="{% url 'webobiady_home' %}"><img src="{% static 'webobiady/images/burger.png' %}" alt="" /></a>
             </div>
             <div class="col-md-7">
-                <h1>WebObiady!<span class="h1-text"><br /><a href="{% url 'order_form' %}">Zamów obiad na dziś</a></span></h1>
+                <h1>WebObiady!<span class="h1-text"><br /><a href="{% url 'user_home' %}">Zamów obiad na dziś</a></span></h1>
             </div>
 
             <!-- <img src="{% static 'webobiady/images/pizza.png' %}" alt="" /> -->

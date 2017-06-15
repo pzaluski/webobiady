@@ -6,7 +6,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from main.utils import get_order_settings
-from .forms import OrderPurchaserForm
+from .forms import OrderPurchaserForm, OrderForm
 from .models import Order
 
 
@@ -22,7 +22,13 @@ class DailyOrdersList(ListView):
 @method_decorator(login_required, name='dispatch')
 class OrderCreate(CreateView):
     model = Order
-    fields = ['dishes']
+    form_class = OrderForm
+    template_name = "orders/order_form_modal.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderCreate, self).get_context_data(**kwargs)
+        context['destination_url'] = reverse('order_form')
+        return context
 
     def get_success_url(self):
         return reverse('user_home')
@@ -44,7 +50,13 @@ class OrderCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class OrderUpdate(UpdateView):
     model = Order
-    fields = ['dishes']
+    form_class = OrderForm
+    template_name = "orders/order_form_modal.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderUpdate, self).get_context_data(**kwargs)
+        context['destination_url'] = reverse('order_update', kwargs={'pk': context['order'].id})
+        return context
 
     def get_success_url(self):
         return reverse('user_home')

@@ -20,37 +20,22 @@ function set_ajax_data(obj) {
     $.ajax({
           type: "POST",
           data: $(form).serialize(),
-          dataType: 'json' /*,
-          beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", getCsrfToken());
-                }
-            }
-            */
+          dataType: 'json'
         });
 }
 
-
-function getCsrfToken() {
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-    return csrftoken;
-}
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-function get_menu_from_url(url) {
-    $.ajax({ url: url, success: function(data) { console.log(data); } });
+function get_menu_modal() {
+    $("#menuModal").on("show.bs.modal", function(e) {
+        var link = $(e.relatedTarget);
+        $(this).find(".modal-body").load(link.attr("href"));
+    });
 }
 
 
 function main() {
     order_status_change();
     set_paid();
-
-    //get_menu_from_url('https://www.pyszne.pl/orientalna-li-long');
+    get_menu_modal();
 }
 
 $(document).ready(main);
