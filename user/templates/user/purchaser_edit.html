@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Edycja danych"  "purchaser_edit" %}
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Edycja danych
+{% endblock title %}
+
+{% block content %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Dane prezentowane na stronie głównej</div>
+
+        <form action="" method="post">
+        <div class="panel-body wo-panel-body">
+
+                {% csrf_token %}
+                {{ form|crispy }}
+
+        </div>
+        <div class="panel-footer wo-panel-footer">
+            <button class="btn btn-success"  type="submit">Zapisz</button>
+        </div>
+        </form>
+    </div>
+
+{% endblock content %}

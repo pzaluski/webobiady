@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block title %}
-    Zamówienia
+    Dzisiejsze zamówienia
 {% endblock %}
 
 {% block content %}
@@ -28,6 +28,7 @@
                 <th class="text-center">Danie</th>
                 <th class="text-center">Cena</th>
                 <th class="text-center">Dostawa</th>
+                <th class="text-center">Razem</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Zapłacono</th>
                 <th></th>
@@ -45,8 +46,9 @@
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td class="text-right">{{ obj.price }}</td>
-                <td class="text-right">{{ obj.get_delivery_price }}</td>
+                <td class="text-right">{{ obj.price }} zł</td>
+                <td class="text-right">{{ obj.get_delivery_price }} zł</td>
+                <td class="text-right">{{ obj.total_price }} zł</td>
                 <td class="text-center">
                     <form action="." method="post">
                         {% csrf_token %}
@@ -64,8 +66,20 @@
                         {% csrf_token %}
                         <input type="hidden" name="op" value="paid" />
                         <input type="hidden" name="order_id" value="{{ obj.id }}" />
-                        <input type="checkbox" {% if obj.paid %} checked="checked" {% endif %} name="paid" value="1" class="js-paid" />
+                        <input type="checkbox"
+                               {% if obj.paid %} checked="checked" {% endif %}
+                               name="paid"
+                               value="1"
+                               class="js-paid"
+                        />
                     </form>
+                </td>
+                <td>
+                    <a data-toggle="modal"
+                       data-target="#menuModal"
+                       href="{% url 'order_edit' obj.id %}"
+                       class="btn btn-success btn-sm"
+                    >Edycja</a>
                 </td>
             </tr>
             {% endfor %}
@@ -75,8 +89,10 @@
         </div>
 
         <div class="panel-footer wo-panel-footer">
-            <a href="#" class="btn btn-success" type="submit">Zamówione</a>
+            <a href="{% url 'message_collect' %}" class="btn btn-danger" type="submit">Powiadom o odbiorze</a>
         </div>
+
+        {% include "orders/order_modal.html" %}
 
         {% else %}
         <div class="panel-body">

@@ -11,6 +11,9 @@ from orders.models import Order
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    collect_place = models.CharField(max_length=50, verbose_name="Miejsce odbioru", blank=True)
+    purchaser_name = models.CharField(max_length=400, verbose_name="Zamawiający - nazwa", blank=True)
+    purchaser_message = models.CharField(max_length=400, verbose_name="Informacja od zamawiającego", blank=True)
 
     def is_purchaser(self):
         os = get_order_settings()

@@ -19,15 +19,30 @@
                     {% if user.is_authenticated %}
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'user_home' %}">Twoje zamówienie</a></li>
-                        {% if user.userprofile.is_purchaser %}
-                        <li><a href="{% url 'daily_orders' %}">Dzisiejsze zamówienia</a></li>
-                        {% endif %}
 
-                        {% if user.is_superuser %}
-                        <li><a href="{% url 'import_menu' %}">Import menu</a></li>
+                        {% if user.userprofile.is_purchaser %}
+                        <li class="dropdown wo-panel-dropdown">
+                          <a href="#"
+                             class="dropdown-toggle btn-default wo-panel-btn"
+                             data-toggle="dropdown"
+                             role="button"
+                             aria-haspopup="true"
+                             aria-expanded="false"
+                          >Panel zamawiającego <span class="caret"></span>
+                          </a>
+                          <ul class="dropdown-menu">
+                              <li><a href="{% url 'purchaser_edit' user.id %}">Edycja danych</a></li>
+                              <li><a href="{% url 'daily_orders' %}">Dzisiejsze zamówienia</a></li>
+                              {% if user.is_superuser %}
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{% url 'import_menu' %}">Import menu</a></li>
+                              {% endif %}
+                          </ul>
+                        </li>
                         {% endif %}
                     </ul>
                     {% endif %}
+
                 </div>
                 <div class="navbar-collapse collapse">
                     {% if user.is_authenticated %}
@@ -55,7 +70,7 @@
                 <a href="{% url 'webobiady_home' %}"><img src="{% static 'webobiady/images/burger.png' %}" alt="" /></a>
             </div>
             <div class="col-md-7">
-                <h1>WebObiady!<span class="h1-text"><br /><a href="{% url 'user_home' %}">Zamów obiad na dziś</a></span></h1>
+                <h1>WebObiady<span class="h1-text"><br /><a href="{% url 'user_home' %}">Zamów obiad na dziś!</a></span></h1>
             </div>
 
             <!-- <img src="{% static 'webobiady/images/pizza.png' %}" alt="" /> -->

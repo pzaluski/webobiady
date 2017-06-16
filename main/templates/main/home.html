@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %} {% endblock %}
+
 
 {% block title %}
     Witaj w WebObiady - dzisiaj {{ os.restaurant.name }}!
@@ -11,14 +13,41 @@
     <div class="panel panel-primary">
         <div class="panel-heading">Szczegóły zamówienia</div>
         <div class="panel-body">
-            <ul class="list-group">
+            <ul class="list-group col-md-6">
                 <li class="list-group-item">Restauracja: <strong>{{ os.restaurant.name }}</strong></li>
                 <li class="list-group-item">Dopłata za dowóz wynosi: <strong>{{ os.restaurant.delivery_price }} zł</strong></li>
                 <li class="list-group-item">Zamówienia można składać do godziny: <strong>{{ os.order_deadline }}</strong></li>
+                <li class="list-group-item">Zamawiający:
+                    <strong>
+                        {% if os.purchaser.userprofile.purchaser_name %}
+                            {{ os.purchaser.userprofile.purchaser_name }}
+                        {% else %}
+                            {{ os.purchaser.username }}
+                        {% endif %}
+                    </strong>
+                </li>
+                {% if os.purchaser.userprofile.collect_place %}
+                <li class="list-group-item">Miejsce odbioru:
+                    <strong> {{ os.purchaser.userprofile.collect_place }}</strong>
+                </li>
+                {% endif %}
+                {% if os.purchaser.userprofile.purchaser_message %}
+                <li class="list-group-item">Informacje dodatkowe:
+                    <strong> {{ os.purchaser.userprofile.purchaser_message }}</strong>
+                </li>
+                {% endif %}
                 <li class="list-group-item">Przewidywana dostawa: <strong>{{ delivery_desc }}</strong></li>
-                <li class="list-group-item">Zamawiający: <strong>{{ os.purchaser.username }}</strong></li>
-                <li class="list-group-item"><a href="{{ os.restaurant.menu_url }}" target="_blank">Przejdź do menu &raquo;</a></li>
-              </ul>
+
+            </ul>
+            <div class="col-md-6">
+            <h4 class="text-primary">Dzisiaj w menu <i class="text-danger glyphicon glyphicon-cutlery"></i></h4>
+                <p>
+                    {% for dish in menu %}
+                     {{ dish.name }},
+                    {% endfor %}
+                </p>
+                <p class="text-right"><a class="btn btn-danger btn-xs" href="{{ os.restaurant.menu_url }}" target="_blank">Zobacz na stronie &raquo;</a></p>
+            </div>
         </div>
         <div class="panel-footer wo-panel-footer">
             <p><a class="btn btn-success" href="{% url 'user_home' %}">Złóż zamówienie</a></p>

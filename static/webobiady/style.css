@@ -46,3 +46,12 @@ h2 {
 .wo-page-header {
     margin-top: 20px;
 }
+
+
+.navbar-default .navbar-nav a.wo-panel-btn,
+ .navbar-default .navbar-nav a.wo-panel-btn:hover,
+  .navbar-default .navbar-nav .wo-panel-dropdown  a.wo-panel-btn,
+   .navbar-default .navbar-nav .wo-panel-dropdown  a.wo-panel-btn:hover {
+    color: #777;
+    background-color: #fff
+}

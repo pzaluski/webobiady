@@ -10,12 +10,15 @@ def home(request):
     os = get_order_settings()
     if request.user.is_authenticated() and request.user == os.purchaser:
         purchaser = True
+
+    menu = os.restaurant.get_menu()
+
     context = {
         'os': os,
         'purchaser': purchaser,
         'delivery_desc': get_delivery(),
+        'menu': menu,
     }
-
     return render(request, "main/home.html", context)
 
 
@@ -31,6 +34,9 @@ def get_delivery():
         'nie bądź taki dociekliwy',
         'sio wścibolu',
         'jak przyjedzie to będzie',
+        'maruda!',
+        '..nie ględź..',
+        'cierpliwości!'
     )
     d = random.choice(delivery)
     return d

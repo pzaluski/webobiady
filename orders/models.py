@@ -26,7 +26,7 @@ class Order(models.Model):
         ('ACCEPTED', 'Zamówione'),
         ('COMPLETED', 'Do odbioru'),
     )
-    settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
+    settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE, verbose_name="Ustawienia")
     dishes = models.ManyToManyField(Dish, default=None, verbose_name="Menu")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena zamówienia", default=0)
     paid = models.BooleanField(default=False, verbose_name="Zapłacono")
@@ -57,6 +57,6 @@ class Order(models.Model):
         return reverse('order_update', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '{0}: {1}'.format(self.user.username, self.price)
+        return '{2} {0}: {1} Restauracja: {3}'.format(self.user.username, self.price, self.settings.order_date, self.settings.restaurant.name)
 
 

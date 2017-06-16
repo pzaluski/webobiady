@@ -20,9 +20,22 @@ class UserRegisterForm(forms.ModelForm):
         )
 
 
+class PurchaserEditForm(forms.ModelForm):
+    purchaser_message = forms.CharField(required=False, label="Informacje dodatkowe", widget=forms.Textarea())
+    purchaser_name = forms.CharField(required=False, label="Zamawiający")
+
+    class Meta:
+        model = UserProfile
+        fields = ('collect_place', 'purchaser_name', 'purchaser_message')
+
+
+'''
 class ProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
         fields = ('is_purchaser',)
+
+'''
+
 
