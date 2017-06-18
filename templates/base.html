@@ -19,6 +19,9 @@
                     {% if user.is_authenticated %}
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'user_home' %}">Twoje zamówienie</a></li>
+                        {% now "Y" as current_year %}
+                        {% now "m" as current_month %}
+                        <li><a href="{% url 'order_history' month=current_month year=current_year %}">Historia zamówień</a></li>
 
                         {% if user.userprofile.is_purchaser %}
                         <li class="dropdown wo-panel-dropdown">

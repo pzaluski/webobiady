@@ -52,6 +52,6 @@ h2 {
  .navbar-default .navbar-nav a.wo-panel-btn:hover,
   .navbar-default .navbar-nav .wo-panel-dropdown  a.wo-panel-btn,
    .navbar-default .navbar-nav .wo-panel-dropdown  a.wo-panel-btn:hover {
-    color: #777;
-    background-color: #fff
+    color: #fff;
+    background-color: #777;
 }

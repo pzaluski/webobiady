@@ -1,0 +1,10 @@
+Witaj {{ username|capfirst }},
+
+Twoje zamówienie:
+{% for dish in dishes %}
+- {{ dish.name }}
+{% endfor %}
+zostało dostarczone.
+Miejsce odbioru: {{ place }}
+
+Pozdrawiamy!

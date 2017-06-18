@@ -1,14 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse, render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView, DayArchiveView, MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
-
-from main.utils import get_order_settings
+from main.utils import get_order_settings, EmailMessageCreator
 from .forms import OrderPurchaserForm, OrderForm
 from .models import Order
+from datetime import datetime
 
 
 @method_decorator(login_required, name='dispatch')
@@ -129,48 +128,66 @@ class PurchaserOrderEdit(OrderUpdate):
         return reverse('daily_orders')
 
 
-@login_required
-def send_message_collect(request):
+@method_decorator(login_required, name='dispatch')
+class MessageCollectView(TemplateView):
     purchaser = get_order_settings().purchaser
-
-    Order.objects.filter(settings=get_order_settings()).update(order_status='COMPLETED')
     orders = Order.objects.filter(settings=get_order_settings())
 
-    messages = []
+    def get(self, request, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Ustawia status wszystkich zamówień na Do odbioru
+                 Wysyła maila z powiadomieniem do użytkowników
+        """
+        Order.objects.filter(settings=get_order_settings()).update(order_status='COMPLETED')
 
-    for o in orders:
-        email = o.user.email
+        message = EmailMessageCreator()
+        message.set_subject('Odbierz zamówienie')
+        message.set_body_template('email_messages/email_message_collect.txt')
+        #message.set_body_template_html('email_messages/email_message_collect.html')
 
-        message = 'Twoje zamówienie:\n'
-        message_html = '<h3 style="color:#3b85bf">Witaj' + o.user.username + '</h3>'
-        message_html += '<p>Twoje zamówienie:</p><ul>'
-        for dish in o.dishes.all():
-            message += dish.name + ', '
-            message_html += '<li>dish.name</li>'
-        message_html += '</ul>'
-        message = message[:-2]
-        message += '\n'
-        message_html += '<p>zostało dostarczone. <br />Miejsce odbioru: </p>'
-        message += 'zostało dostarczone. \nMiejsce odbioru: '
-        message += purchaser.userprofile.collect_place
-        message += '\n\nOdbierz czym prędzej, bo inni Ci zjedzą!!!'
+        for o in self.orders:
+            email = o.user.email
 
-        subject, from_email, to = 'Odbierz zamówienie', 'WebObiady <noreply@webobiady.pl>', email
-        text_content = message
-        html_content = message_html
+            context = {
+                'place': self.purchaser.userprofile.collect_place,
+                'username': o.user.username,
+                'dishes': o.dishes.all(),
+            }
+            message.set_message_context(context=context)
+            message.send_message([email])
 
-        #msg = EmailMessage(subject, html_content, from_email, [to])
-        #msg.content_subtype = "html"  # Main content is now text/html
-        #msg.send()
-
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        return redirect('message_sent')
 
 
-    #send_mass_mail(messages)
-    return redirect('daily_orders')
-    return redirect('message_sent')
+@method_decorator(login_required, name='dispatch')
+class OrderArchiveMonthView(MonthArchiveView):
+    date_field = 'date_created'
+    month_format = '%m'
+    make_object_list = True
+    allow_empty = True
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = Order.objects.filter(user=request.user)
+        self.month = kwargs['month']
+        self.year = kwargs['year']
+        return super().get(request, *args, **kwargs)
+
+    def get_month(self):
+        if not self.month:
+            return datetime.today().strftime('%m')
+        else:
+            return self.month
+
+    def get_year(self):
+        if not self.year:
+            return datetime.today().strftime('%Y')
+        else:
+            return self.year
+
+
 
 
 @login_required

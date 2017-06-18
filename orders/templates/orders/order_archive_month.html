@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Historia zamówień" "user_home" %}
+{% endblock %}
+
+{% block title %}
+    Historia zamówień
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading">{{ month|date:"F Y" }}</div>
+
+    {% if object_list %}
+    <div class="panel-body">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th class="text-center">Data</th>
+                <th class="text-center">Zamówienie</th>
+                <th class="text-center">Cena</th>
+                <th class="text-center">Dostawa</th>
+                <th class="text-center">Razem</th>
+                <th class="text-center">Zapłacono</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in object_list %}
+
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ obj.date_created|date:"d.m.Y" }}</td>
+                <td>{% for dish in obj.dishes.all %}
+                        {{ dish.name }}
+                        {% if not forloop.last %}
+                            <br />
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td class="text-right">{{ obj.price }} zł</td>
+                <td class="text-right">{{ obj.get_delivery_price }} zł</td>
+                <td class="text-right">{{ obj.total_price }} zł</td>
+                <td class="text-center">
+                    {% if obj.paid %}
+                    <span class="text-success">Tak</span>
+                    {% else %}
+                    <span class="text-danger">Nie</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+    <div class="panel-body">
+        <div class="alert alert-warning">
+            <p>Brak zamówień.</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="panel-footer wo-panel-footer">
+        <nav>
+          <ul class="pager">
+              {% if previous_month %}
+                <li><a href="{% url 'order_history' year=previous_month|date:'Y' month=previous_month|date:'m' %}">&laquo; {{ previous_month|date:"F Y" }}</a></li>
+              {% endif %}
+              {% if next_month %}
+                <li><a href="{% url 'order_history' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }} &raquo;</a></li>
+              {% endif %}
+          </ul>
+        </nav>
+
+    </div>
+
+
+</div>
+{% endblock %}

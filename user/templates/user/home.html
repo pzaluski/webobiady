@@ -26,7 +26,7 @@
     <div class="panel-body">
         {% if uo %}
 
-        <div class="col-md-6">
+        <div class="col-md-8">
         <table class="table">
             <thead>
             <tr>
@@ -40,14 +40,14 @@
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ obj.name }}</td>
-                <td>{{ obj.price }}</td>
+                <td class="text-right">{{ obj.price }} zł</td>
             </tr>
             {% endfor %}
 
             </tbody>
         </table>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <ul class="list-group">
                 <li class="list-group-item">Status: <strong>{{ uo.get_order_status_display }}</strong></li>
                 <li class="list-group-item">Cena zamówienia: <strong>{{ uo.price }} zł</strong></li>
