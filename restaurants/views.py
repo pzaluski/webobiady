@@ -35,7 +35,6 @@ def import_menu(request):
 
             return HttpResponseRedirect('import_menu')
 
-    # if a GET (or any other method) we'll create a blank form
     else:
         form = ImportMenuForm()
 

@@ -90,9 +90,7 @@ class PurchaserOrdersList(FormView):
     form_class = OrderPurchaserForm
 
     def get_context_data(self, **kwargs):
-        kwargs['object_list'] = Order.objects.filter(settings=get_order_settings())
-        for order in kwargs['object_list']:
-            order.total_price = order.price + order.get_delivery_price()
+        kwargs['object_list'] = Order.objects.filter(settings=get_order_settings()).order_by('date_created')
         return super().get_context_data(**kwargs)
 
     def get_success_url(self):
@@ -170,7 +168,7 @@ class OrderArchiveMonthView(MonthArchiveView):
     allow_empty = True
 
     def get(self, request, *args, **kwargs):
-        self.queryset = Order.objects.filter(user=request.user)
+        self.queryset = Order.objects.filter(user=request.user).order_by('date_created')
         self.month = kwargs['month']
         self.year = kwargs['year']
         return super().get(request, *args, **kwargs)

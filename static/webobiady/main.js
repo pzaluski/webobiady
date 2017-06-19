@@ -24,11 +24,26 @@ function set_ajax_data(obj) {
         });
 }
 
+
 function get_menu_modal() {
-    $("#menuModal").on("show.bs.modal", function(e) {
+    $("#modal").on("show.bs.modal", function(e) {
         var link = $(e.relatedTarget);
         $(this).find(".modal-body").load(link.attr("href"));
     });
+}
+
+
+function get_menu_modal2() {
+$('#modal').on('show.bs.modal', function (event) {
+var modal = $(this)
+$.ajax({
+url: $('.js-modal').attr('href'),
+context: document.body
+}).done(function(response) {
+modal.html(response);
+});
+})
+
 }
 
 
@@ -36,6 +51,7 @@ function main() {
     order_status_change();
     set_paid();
     get_menu_modal();
+    //get_menu_modal2();
 }
 
 $(document).ready(main);

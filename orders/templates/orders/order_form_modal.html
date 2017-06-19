@@ -2,14 +2,13 @@
 
 {% load crispy_forms_tags %}
 
-{% block content %}
-
+<form id="item-update-modal" action="{{ destination_url }}" method="post">
     <div class="panel panel-primary wo-panel-modal">
         <div class="panel-heading">Zamówienie z restauracji {{ form.instance.settings.restaurant.name }}
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
 
-        <form action="{{ destination_url }}" method="post">
+
         <div class="panel-body wo-panel-body">
 
                 {% csrf_token %}
@@ -20,7 +19,6 @@
             <button class="btn btn-success" type="submit">Zapisz</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
         </div>
-        </form>
-    </div>
 
-{% endblock content %}
+    </div>
+</form>

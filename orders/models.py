@@ -12,7 +12,7 @@ class OrderSettings(models.Model):
     order_date = models.DateField()
 
     def __str__(self):
-        return '{0} - {1}'.format(self.order_date.strftime("%d.%m.%Y"), self.restaurant.name)
+        return '{0} - {1} {2}'.format(self.order_date.strftime("%d.%m.%Y"), self.restaurant.name, self.purchaser.username)
 
 
 class OrdersManager(models.Manager):
@@ -25,6 +25,7 @@ class Order(models.Model):
         ('NEW', 'Nowe'),
         ('ACCEPTED', 'Zamówione'),
         ('COMPLETED', 'Do odbioru'),
+        ('REJECTED', 'Odrzucone'),
     )
     settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE, verbose_name="Ustawienia")
     dishes = models.ManyToManyField(Dish, default=None, verbose_name="Menu")
@@ -38,6 +39,9 @@ class Order(models.Model):
 
     def get_restaurant(self):
         return self.settings.restaurant
+
+    def get_total_price(self):
+        return self.price + self.settings.restaurant.delivery_price
 
     def get_dict_status_choices(self):
         d = []

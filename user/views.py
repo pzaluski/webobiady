@@ -22,7 +22,6 @@ def home(request):
         if now < os.order_deadline:
             edit = True
         uo = Order.objects.get(user=request.user, settings=os)
-        uo.total_price = uo.price + uo.get_delivery_price()
     except ObjectDoesNotExist:
         return render(request, "user/home.html", {'edit': edit})
     return render(request, "user/home.html", {'uo': uo, 'edit': edit})

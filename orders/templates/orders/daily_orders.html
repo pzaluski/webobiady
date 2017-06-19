@@ -48,7 +48,7 @@
                 </td>
                 <td class="text-right">{{ obj.price }} zł</td>
                 <td class="text-right">{{ obj.get_delivery_price }} zł</td>
-                <td class="text-right">{{ obj.total_price }} zł</td>
+                <td class="text-right">{{ obj.get_total_price }} zł</td>
                 <td class="text-center">
                     <form action="." method="post">
                         {% csrf_token %}
@@ -76,7 +76,7 @@
                 </td>
                 <td>
                     <a data-toggle="modal"
-                       data-target="#menuModal"
+                       data-target="#modal"
                        href="{% url 'order_edit' obj.id %}"
                        class="btn btn-success btn-sm"
                     >Edycja</a>

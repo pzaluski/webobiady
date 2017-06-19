@@ -52,7 +52,7 @@
                 <li class="list-group-item">Status: <strong>{{ uo.get_order_status_display }}</strong></li>
                 <li class="list-group-item">Cena zamówienia: <strong>{{ uo.price }} zł</strong></li>
                 <li class="list-group-item">Koszt dostawy: <strong>{{ uo.get_delivery_price }} zł</strong></li>
-                <li class="list-group-item">Suma: <strong>{{ uo.total_price }} zł</strong></li>
+                <li class="list-group-item">Razem: <strong>{{ uo.get_total_price }} zł</strong></li>
                 <li class="list-group-item">Zapłacono:
                     <strong>
                         {% if uo.paid %}
@@ -77,14 +77,14 @@
         <div class="panel-footer wo-panel-footer">
             <form action="{% url 'order_delete' uo.id %}" method="post">
                 {% csrf_token %}
-                <a data-toggle="modal" data-target="#menuModal" href="{{ uo.get_absolute_url }}" class="btn btn-success"  type="submit">Edytuj zamówienie</a>
+                <a data-toggle="modal" data-target="#modal" href="{{ uo.get_absolute_url }}" class="btn btn-success"  type="submit">Edytuj zamówienie</a>
                 <button type="submit" class="btn btn-danger">Usuń</button>
             </form>
         </div>
 
         {% else %}
         <div class="panel-footer wo-panel-footer">
-            <a data-toggle="modal" data-target="#menuModal" href="{% url 'order_form' %}" class="btn btn-success"  type="submit">Dodaj zamówienie</a>
+            <a data-toggle="modal" data-target="#modal" href="{% url 'order_form' %}" class="btn btn-success"  type="submit">Dodaj zamówienie</a>
         </div>
         {% endif %}
 
