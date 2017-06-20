@@ -16,15 +16,15 @@ from .models import UserProfile
 @login_required
 def home(request):
     edit = False
+    os = get_order_settings()
+    now = datetime.now().time()
+    if now < os.order_deadline:
+        edit = True
     try:
-        os = get_order_settings()
-        now = datetime.now().time()
-        if now < os.order_deadline:
-            edit = True
         uo = Order.objects.get(user=request.user, settings=os)
     except ObjectDoesNotExist:
-        return render(request, "user/home.html", {'edit': edit})
-    return render(request, "user/home.html", {'uo': uo, 'edit': edit})
+        return render(request, "user/home.html", {'edit': edit, 'restaurant': os.restaurant})
+    return render(request, "user/home.html", {'uo': uo, 'edit': edit, 'restaurant': os.restaurant})
 
 
 @method_decorator(login_required, name='dispatch')

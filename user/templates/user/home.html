@@ -9,7 +9,7 @@
 
 
 {% block title %}
-    Twoje zamówienie
+    Twoje zamówienie - restauracja {{ restaurant.name }}
 {% endblock title %}
 
 {% block content %}
@@ -62,6 +62,7 @@
                         {% endif %}
                     </strong>
                 </li>
+                <li class="list-group-item"><a class="btn btn-danger btn-xs" href="{{ restaurant.menu_url }}" target="_blank">Zobacz menu na stronie &raquo;</a></li>
               </ul>
         </div>
 
