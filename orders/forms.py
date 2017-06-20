@@ -10,10 +10,11 @@ class OrderForm(forms.ModelForm):
         label="Wybierz danie",
         widget=forms.CheckboxSelectMultiple(attrs=({'class': 'multi'}))
     )
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), label="Komentarz", required=False)
 
     class Meta:
         model = Order
-        fields = ['dishes']
+        fields = ['dishes', 'comment']
 
 
 class OrderPurchaserForm(forms.ModelForm):

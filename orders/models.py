@@ -34,6 +34,7 @@ class Order(models.Model):
     date_created = models.DateField(auto_now_add=True, verbose_name="Data zamówienia")
     order_status = models.CharField(max_length=10, choices=ORDER_STATUS, default='NEW', verbose_name="Status zamówienia")
     user = models.ForeignKey(User, verbose_name="Zamawiający")
+    comment = models.CharField(max_length=4000, verbose_name="Komentarz", blank=True)
 
     objects = OrdersManager()
 

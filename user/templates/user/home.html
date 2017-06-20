@@ -27,25 +27,30 @@
         {% if uo %}
 
         <div class="col-md-8">
-        <table class="table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>Nazwa dania</th>
-                <th>Cena</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for obj in uo.dishes.all %}
-            <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ obj.name }}</td>
-                <td class="text-right">{{ obj.price }} zł</td>
-            </tr>
-            {% endfor %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Nazwa dania</th>
+                    <th>Cena</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in uo.dishes.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ obj.name }}</td>
+                    <td class="text-right">{{ obj.price }} zł</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-            </tbody>
-        </table>
+            {% if uo.comment %}
+            <div class="alert alert-warning">
+                <strong>Komentarz:</strong> {{ uo.comment }}
+            </div>
+            {% endif %}
         </div>
         <div class="col-md-4">
             <ul class="list-group">

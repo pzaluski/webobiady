@@ -26,6 +26,7 @@
                 <th></th>
                 <th class="text-center">Zamawiający</th>
                 <th class="text-center">Danie</th>
+                <th class="text-center">Komentarz</th>
                 <th class="text-center">Cena</th>
                 <th class="text-center">Dostawa</th>
                 <th class="text-center">Razem</th>
@@ -46,6 +47,7 @@
                         {% endif %}
                     {% endfor %}
                 </td>
+                <td>{{ obj.comment|default:"<p class='text-center'>-</p>" }}</td>
                 <td class="text-right">{{ obj.price }} zł</td>
                 <td class="text-right">{{ obj.get_delivery_price }} zł</td>
                 <td class="text-right">{{ obj.get_total_price }} zł</td>
