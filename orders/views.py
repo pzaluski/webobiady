@@ -24,19 +24,20 @@ class OrderCreate(CreateView):
     model = Order
     form_class = OrderForm
     template_name = "orders/order_form_modal.html"
+    order_settings = get_order_settings()
 
     def get_context_data(self, **kwargs):
         context = super(OrderCreate, self).get_context_data(**kwargs)
         context['destination_url'] = reverse('order_form')
+        context['restaurant'] = self.order_settings.restaurant
         return context
 
     def get_success_url(self):
         return reverse('user_home')
 
     def form_valid(self, form):
-        os = get_order_settings()
         order = form.save(commit=False)
-        order.settings = os
+        order.settings = self.order_settings
         order.user = self.request.user
         order.price = 0
         order = form.save()
@@ -52,10 +53,12 @@ class OrderUpdate(UpdateView):
     model = Order
     form_class = OrderForm
     template_name = "orders/order_form_modal.html"
+    order_settings = get_order_settings()
 
     def get_context_data(self, **kwargs):
         context = super(OrderUpdate, self).get_context_data(**kwargs)
         context['destination_url'] = reverse('order_update', kwargs={'pk': context['order'].id})
+        context['restaurant'] = self.order_settings.restaurant
         return context
 
     def get(self, request, *args, **kwargs):
