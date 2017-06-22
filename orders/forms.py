@@ -6,7 +6,7 @@ from .models import Order, Dish
 
 class OrderForm(forms.ModelForm):
     dishes = forms.ModelMultipleChoiceField(
-        queryset=Dish.objects.filter(restaurant=utils.get_today_restaurant()),
+        queryset=Dish.objects.filter(restaurant=utils.get_order_settings().restaurant),
         label="Wybierz danie",
         widget=forms.CheckboxSelectMultiple(attrs=({'class': 'multi'}))
     )
