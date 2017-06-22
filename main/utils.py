@@ -10,7 +10,7 @@ from datetime import datetime
 
 def get_order_settings():
     try:
-        os = OrderSettings.objects.get(order_date=datetime.now())
+        os = OrderSettings.objects.get(order_date=datetime.today())
     except ObjectDoesNotExist:
         os = OrderSettings()
         try:
