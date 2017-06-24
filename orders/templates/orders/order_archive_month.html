@@ -25,8 +25,8 @@
             <tr>
                 <th></th>
                 <th class="text-center">Data</th>
-                <th class="text-center">Zamówienie</th>
-                <th class="text-center">Komentarz</th>
+                <th class="text-center">Restauracja</th>
+                <th class="text-center">Zamawiający</th>
                 <th class="text-center">Cena</th>
                 <th class="text-center">Dostawa</th>
                 <th class="text-center">Razem</th>
@@ -40,14 +40,8 @@
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ obj.date_created|date:"d.m.Y" }}</td>
-                <td>{% for dish in obj.dishes.all %}
-                        {{ dish.name }}
-                        {% if not forloop.last %}
-                            <br />
-                        {% endif %}
-                    {% endfor %}
-                </td>
-                <td>{{ obj.comment|default:"<p class='text-center'>-</p>" }}</td>
+                <td>{{ obj.get_restaurant }}</td>
+                <td>{{ obj.get_purchaser }}</td>
                 <td class="text-right">{{ obj.price }} zł</td>
                 <td class="text-right">{{ obj.get_delivery_price }} zł</td>
                 <td class="text-right">{{ obj.get_total_price }} zł</td>

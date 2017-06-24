@@ -10,14 +10,19 @@ class OrderSettings(models.Model):
     order_deadline = models.TimeField(verbose_name="Termin składania zamówień", default="10:30")
     purchaser = models.ForeignKey(User, related_name="purchaser", verbose_name="Kupujący")
     order_date = models.DateField()
+    active = models.BooleanField(default=False, verbose_name="Aktywny")
 
     def __str__(self):
-        return '{0} - {1} {2}'.format(self.order_date.strftime("%d.%m.%Y"), self.restaurant.name, self.purchaser.username)
+        if self.active:
+            is_active = '< Aktywny >'
+        else:
+            is_active = ''
+        return '{0} {1} {2}'.format(is_active, self.restaurant.name, self.purchaser.username)
 
 
 class OrdersManager(models.Manager):
     def orders_for_user(self, user, order_date):
-        return super(OrdersManager, self).get_queryset().filter(user_id=user.id, settings__order_date=order_date)
+        return super(OrdersManager, self).get_queryset().filter(user_id=user.id, date_created=order_date)
 
 
 class Order(models.Model):
@@ -41,6 +46,14 @@ class Order(models.Model):
     def get_restaurant(self):
         return self.settings.restaurant
 
+    def get_purchaser(self):
+        purchaser_name = self.settings.purchaser.username
+
+        if self.settings.purchaser.userprofile.purchaser_name:
+            purchaser_name = self.settings.purchaser.userprofile.purchaser_name
+
+        return purchaser_name
+
     def get_total_price(self):
         return self.price + self.settings.restaurant.delivery_price
 
@@ -62,6 +75,6 @@ class Order(models.Model):
         return reverse('order_update', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '{2} {0}: {1} Restauracja: {3}'.format(self.user.username, self.price, self.settings.order_date, self.settings.restaurant.name)
+        return '{2} {0}: {1} Restauracja: {3}'.format(self.user.username, self.price, self.date_created, self.settings.restaurant.name)
 
 

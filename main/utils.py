@@ -1,30 +1,34 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
-from django.utils.html import escape
 from django.template.loader import get_template
 from orders.models import OrderSettings
 from restaurants.models import Restaurant
-from datetime import datetime
 
 
 def get_order_settings():
     try:
-        os = OrderSettings.objects.get(order_date=datetime.today())
+        os = OrderSettings.objects.get(active=True)
     except ObjectDoesNotExist:
-        os = OrderSettings()
         try:
-            os.restaurant = Restaurant.objects.first()
+            os = OrderSettings.objects.last()
         except ObjectDoesNotExist:
-            r = Restaurant(name="Zagrycha", delivery_price=0)
-            r.save()
-            os.restaurant = r
-        try:
-            os.purchaser = User.objects.get(username="mbork")
-        except ObjectDoesNotExist:
-            os.purchaser = User.objects.first()
-        os.order_deadline = "10:30"
-        os.order_date = datetime.now()
+            os = OrderSettings()
+            try:
+                os.restaurant = Restaurant.objects.first()
+            except ObjectDoesNotExist:
+                r = Restaurant(name="Zagrycha", delivery_price=0)
+                r.save()
+                os.restaurant = r
+            try:
+                os.purchaser = User.objects.get(username="mbork")
+            except ObjectDoesNotExist:
+                os.purchaser = User.objects.first()
+            os.order_deadline = "10:30"
+            os.active = True
+            os.save()
+            return os
+        os.active = True
         os.save()
     return os
 
