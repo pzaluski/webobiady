@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse, render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, TemplateView, DayArchiveView, MonthArchiveView
+from django.views.generic import ListView, TemplateView, MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from main.utils import get_order_settings, EmailMessageCreator
 from .forms import OrderPurchaserForm, OrderForm
@@ -29,7 +29,6 @@ class OrderCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super(OrderCreate, self).get_context_data(**kwargs)
         context['destination_url'] = reverse('order_form')
-        context['restaurant'] = self.order_settings.restaurant
         return context
 
     def get_success_url(self):
@@ -58,7 +57,6 @@ class OrderUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(OrderUpdate, self).get_context_data(**kwargs)
         context['destination_url'] = reverse('order_update', kwargs={'pk': context['order'].id})
-        context['restaurant'] = self.order_settings.restaurant
         return context
 
     def get(self, request, *args, **kwargs):

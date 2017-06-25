@@ -26,10 +26,13 @@ function set_ajax_data(obj) {
 
 
 function get_menu_modal() {
+
     $("#modal").on("show.bs.modal", function(e) {
         var link = $(e.relatedTarget);
+        $(this).removeData('modal');
         $(this).find(".modal-body").load(link.attr("href"));
     });
+
 }
 
 

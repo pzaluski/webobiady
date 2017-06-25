@@ -12,6 +12,11 @@ class OrderSettings(models.Model):
     order_date = models.DateField()
     active = models.BooleanField(default=False, verbose_name="Aktywny")
 
+    def save(self, *args, **kwargs):
+        super(OrderSettings, self).save(*args, **kwargs)
+        if self.active:
+            OrderSettings.objects.exclude(pk=self.id).update(active=False)
+
     def __str__(self):
         if self.active:
             is_active = '< Aktywny >'

@@ -11,6 +11,7 @@ from .forms import PurchaserEditForm
 from .models import UserProfile
 from datetime import datetime
 
+
 @login_required
 def home(request):
     edit = False
