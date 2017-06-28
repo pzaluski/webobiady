@@ -26,7 +26,7 @@ class PurchaserEditForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('collect_place', 'purchaser_name', 'purchaser_message')
+        fields = ('collect_place', 'purchaser_name', 'payment_method', 'purchaser_message')
 
 
 '''

@@ -26,6 +26,11 @@
                         {% endif %}
                     </strong>
                 </li>
+                {% if os.purchaser.userprofile.payment_method %}
+                <li class="list-group-item">Metoda płatności:
+                    <strong> {{ os.purchaser.userprofile.payment_method }}</strong>
+                </li>
+                {% endif %}
                 {% if os.purchaser.userprofile.collect_place %}
                 <li class="list-group-item">Miejsce odbioru:
                     <strong> {{ os.purchaser.userprofile.collect_place }}</strong>
@@ -40,17 +45,41 @@
 
             </ul>
             <div class="col-md-6">
-            <h4 class="text-primary">Dzisiaj w menu <i class="text-danger glyphicon glyphicon-cutlery"></i></h4>
+                <div class="row">
+                <h4 class="text-primary">Dzisiaj w menu <i class="text-danger glyphicon glyphicon-cutlery"></i></h4>
                 <p>
                     {% for dish in menu %}
-                     {{ dish.name }},
+                        {% if forloop.last %}
+                            {{ dish.name }}
+                        {% else %}
+                            {{ dish.name }},
+                        {% endif %}
                     {% endfor %}
                 </p>
                 <p class="text-right"><a class="btn btn-danger btn-xs" href="{{ os.restaurant.menu_url }}" target="_blank">Zobacz na stronie &raquo;</a></p>
+                </div>
+                {% if user_order %}
+                <div class="row alert alert-warning">
+                    Twoje dzisiejsze zamówienie to
+                    {% for dish in user_order.dishes.all %}
+                        <strong>
+                            {% if forloop.last %}
+                                {{ dish.name }}
+                            {% else %}
+                                {{ dish.name }},
+                            {% endif %}
+                        </strong>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="panel-footer wo-panel-footer">
+            {% if user_order %}
+            <p><a class="btn btn-success" href="{% url 'user_home' %}">Edytuj zamówienie</a></p>
+            {% else %}
             <p><a class="btn btn-success" href="{% url 'user_home' %}">Złóż zamówienie</a></p>
+            {% endif %}
         </div>
     </div>
 

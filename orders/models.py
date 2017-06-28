@@ -28,7 +28,12 @@ class OrderSettings(models.Model):
 
 class OrdersManager(models.Manager):
     def orders_for_user(self, user, order_date):
-        return super(OrdersManager, self).get_queryset().filter(user_id=user.id, date_created=order_date)
+        return super(OrdersManager, self).get_queryset().filter(
+            user_id=user.id,
+            date_created__year=order_date.year,
+            date_created__month=order_date.month,
+            date_created__day=order_date.day,
+        )
 
     def all_orders_for_today(self):
         today = datetime.today()
@@ -38,6 +43,7 @@ class OrdersManager(models.Manager):
             date_created__month=today.month,
             date_created__day=today.day,
         )
+
 
 class Order(models.Model):
     ORDER_STATUS = (

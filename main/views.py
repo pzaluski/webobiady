@@ -1,15 +1,28 @@
 import random
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
-
+from orders.models import Order
 from .utils import get_order_settings
+from datetime import datetime
 
 
 def home(request):
     purchaser = False
     os = get_order_settings()
-    if request.user.is_authenticated() and request.user == os.purchaser:
-        purchaser = True
+    user_order = None
+    if request.user.is_authenticated():
+        if request.user == os.purchaser:
+            purchaser = True
+        try:
+            user_order = Order.objects.get(
+                user_id=request.user.id,
+                date_created__year=datetime.today().year,
+                date_created__month=datetime.today().month,
+                date_created__day=datetime.today().day,
+            )
+        except ObjectDoesNotExist:
+            pass
 
     menu = os.restaurant.get_menu()
 
@@ -18,6 +31,7 @@ def home(request):
         'purchaser': purchaser,
         'delivery_desc': get_delivery(),
         'menu': menu,
+        'user_order': user_order
     }
     return render(request, "main/home.html", context)
 
