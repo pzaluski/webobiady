@@ -24,22 +24,23 @@ class OrderCreate(CreateView):
     model = Order
     form_class = OrderForm
     template_name = "orders/order_form_modal.html"
-    order_settings = get_order_settings()
 
-    def get_context_data(self, **kwargs):
-        context = super(OrderCreate, self).get_context_data(**kwargs)
-        context['destination_url'] = reverse('order_form')
-        return context
+    def get_form_kwargs(self):
+        kwargs = super(OrderCreate, self).get_form_kwargs()
+        kwargs['order_settings'] = get_order_settings()
+        kwargs['destination_url'] = reverse('order_form')
+        return kwargs
 
     def get_success_url(self):
         return reverse('user_home')
 
     def form_valid(self, form):
         order = form.save(commit=False)
-        order.settings = self.order_settings
+        order.settings = form.order_settings
         order.user = self.request.user
         order.price = 0
         order = form.save()
+
         for dish in order.dishes.all():
             order.price = order.price + dish.price
         order.save()
@@ -52,12 +53,12 @@ class OrderUpdate(UpdateView):
     model = Order
     form_class = OrderForm
     template_name = "orders/order_form_modal.html"
-    order_settings = get_order_settings()
 
-    def get_context_data(self, **kwargs):
-        context = super(OrderUpdate, self).get_context_data(**kwargs)
-        context['destination_url'] = reverse('order_update', kwargs={'pk': context['order'].id})
-        return context
+    def get_form_kwargs(self):
+        kwargs = super(OrderCreate, self).get_form_kwargs()
+        kwargs['order_settings'] = get_order_settings()
+        kwargs['destination_url'] = reverse('order_form')
+        return kwargs
 
     def get(self, request, *args, **kwargs):
         return super(OrderUpdate, self).get(request)
@@ -91,7 +92,14 @@ class PurchaserOrdersList(FormView):
     form_class = OrderPurchaserForm
 
     def get_context_data(self, **kwargs):
-        kwargs['object_list'] = Order.objects.filter(settings=get_order_settings()).order_by('date_created')
+        today = datetime.today()
+
+        kwargs['object_list'] = Order.objects.filter(
+            settings=get_order_settings(),
+            date_created__year=today.year,
+            date_created__month=today.month,
+            date_created__day=today.day,
+        ).order_by('date_created')
         return super().get_context_data(**kwargs)
 
     def get_success_url(self):
@@ -102,15 +110,13 @@ class PurchaserOrdersList(FormView):
         oid = request.POST['order_id']
         order = Order.objects.get(pk=oid)
         if op == 'status':
-            ostatus = request.POST['status']
-            order.order_status = ostatus
+            order.order_status = request.POST['status']
             order.save()
         if op == 'paid':
             if request.POST.get('paid'):
-                opaid = request.POST['paid']
+                order.paid = request.POST['paid']
             else:
-                opaid = False
-            order.paid = opaid
+                order.paid = False
             order.save()
         return self.get(request)
 

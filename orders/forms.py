@@ -13,6 +13,8 @@ class OrderForm(forms.ModelForm):
     #comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), label="Komentarz", required=False)
 
     def __init__(self, *args, **kwargs):
+        self.order_settings = kwargs.pop('order_settings', None)
+        self.destination_url = kwargs.pop('destination_url', None)
         super(OrderForm, self).__init__(*args, **kwargs)
         self.fields['dishes'] = forms.ModelMultipleChoiceField(
             queryset=Dish.objects.filter(restaurant=utils.get_order_settings().restaurant).order_by('name'),
