@@ -9,7 +9,7 @@ from .forms import OrderPurchaserForm, OrderForm
 from .models import Order
 from datetime import datetime
 
-
+'''
 @method_decorator(login_required, name='dispatch')
 class DailyOrdersList(ListView):
     context_object_name = 'daily_orders'
@@ -17,7 +17,7 @@ class DailyOrdersList(ListView):
 
     def get_queryset(self):
         return Order.objects.filter(settings=get_order_settings())
-
+'''
 
 @method_decorator(login_required, name='dispatch')
 class OrderCreate(CreateView):
@@ -28,8 +28,12 @@ class OrderCreate(CreateView):
     def get_form_kwargs(self):
         kwargs = super(OrderCreate, self).get_form_kwargs()
         kwargs['order_settings'] = get_order_settings()
-        kwargs['destination_url'] = reverse('order_form')
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderCreate, self).get_context_data(**kwargs)
+        context['destination_url'] = reverse('order_form')
+        return context
 
     def get_success_url(self):
         return reverse('user_home')
@@ -57,8 +61,12 @@ class OrderUpdate(UpdateView):
     def get_form_kwargs(self):
         kwargs = super(OrderCreate, self).get_form_kwargs()
         kwargs['order_settings'] = get_order_settings()
-        kwargs['destination_url'] = reverse('order_form')
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderUpdate, self).get_context_data(**kwargs)
+        context['destination_url'] = reverse('order_update', kwargs={'pk': context['order'].id})
+        return context
 
     def get(self, request, *args, **kwargs):
         return super(OrderUpdate, self).get(request)
@@ -92,14 +100,7 @@ class PurchaserOrdersList(FormView):
     form_class = OrderPurchaserForm
 
     def get_context_data(self, **kwargs):
-        today = datetime.today()
-
-        kwargs['object_list'] = Order.objects.filter(
-            settings=get_order_settings(),
-            date_created__year=today.year,
-            date_created__month=today.month,
-            date_created__day=today.day,
-        ).order_by('date_created')
+        kwargs['object_list'] = Order.objects.all_orders_for_today().order_by('date_created')
         return super().get_context_data(**kwargs)
 
     def get_success_url(self):
@@ -136,7 +137,7 @@ class PurchaserOrderEdit(OrderUpdate):
 @method_decorator(login_required, name='dispatch')
 class MessageCollectView(TemplateView):
     purchaser = get_order_settings().purchaser
-    orders = Order.objects.filter(settings=get_order_settings())
+    orders = Order.objects.all_orders_for_today()
 
     def get(self, request, *args, **kwargs):
         """
@@ -146,7 +147,7 @@ class MessageCollectView(TemplateView):
         :return: Ustawia status wszystkich zamówień na Do odbioru
                  Wysyła maila z powiadomieniem do użytkowników
         """
-        Order.objects.filter(settings=get_order_settings()).update(order_status='COMPLETED')
+        Order.objects.all_orders_for_today().update(order_status='COMPLETED')
 
         message = EmailMessageCreator()
         message.set_subject('Odbierz zamówienie')
@@ -192,8 +193,6 @@ class OrderArchiveMonthView(MonthArchiveView):
             return datetime.today().strftime('%Y')
         else:
             return self.year
-
-
 
 
 @login_required

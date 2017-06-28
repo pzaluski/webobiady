@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-
 from restaurants.models import Restaurant, Dish
+from main import utils
+from datetime import datetime
 
 
 class OrderSettings(models.Model):
@@ -29,6 +30,14 @@ class OrdersManager(models.Manager):
     def orders_for_user(self, user, order_date):
         return super(OrdersManager, self).get_queryset().filter(user_id=user.id, date_created=order_date)
 
+    def all_orders_for_today(self):
+        today = datetime.today()
+        return super(OrdersManager, self).get_queryset().filter(
+            settings=utils.get_order_settings(),
+            date_created__year=today.year,
+            date_created__month=today.month,
+            date_created__day=today.day,
+        )
 
 class Order(models.Model):
     ORDER_STATUS = (
