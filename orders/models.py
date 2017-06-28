@@ -7,11 +7,15 @@ from datetime import datetime
 
 
 class OrderSettings(models.Model):
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, verbose_name="Restauracja")
     order_deadline = models.TimeField(verbose_name="Termin składania zamówień", default="10:30")
     purchaser = models.ForeignKey(User, related_name="purchaser", verbose_name="Kupujący")
-    order_date = models.DateField()
+    order_date = models.DateField(verbose_name="Data zamówienia")
     active = models.BooleanField(default=False, verbose_name="Aktywny")
+
+    class Meta:
+        verbose_name_plural = "Ustawienia zamówień"
+        verbose_name = "Ustawienia zamówień"
 
     def save(self, *args, **kwargs):
         super(OrderSettings, self).save(*args, **kwargs)
@@ -52,6 +56,7 @@ class Order(models.Model):
         ('COMPLETED', 'Do odbioru'),
         ('REJECTED', 'Odrzucone'),
     )
+
     settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE, verbose_name="Ustawienia")
     dishes = models.ManyToManyField(Dish, default=None, verbose_name="Menu")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cena zamówienia", default=0)
@@ -60,6 +65,10 @@ class Order(models.Model):
     order_status = models.CharField(max_length=10, choices=ORDER_STATUS, default='NEW', verbose_name="Status zamówienia")
     user = models.ForeignKey(User, verbose_name="Zamawiający")
     comment = models.CharField(max_length=4000, verbose_name="Komentarz", blank=True)
+
+    class Meta:
+        verbose_name_plural = "Zamówienie"
+        verbose_name = "Zamówienie"
 
     objects = OrdersManager()
 
@@ -95,6 +104,11 @@ class Order(models.Model):
         return reverse('order_update', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '{2} {0}: {1} Restauracja: {3}'.format(self.user.username, self.price, self.date_created, self.settings.restaurant.name)
+        return '{2} {0}: {1} Restauracja: {3}'.format(
+            self.user.username,
+            self.price,
+            self.date_created,
+            self.settings.restaurant.name
+        )
 
 

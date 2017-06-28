@@ -6,6 +6,10 @@ class Restaurant(models.Model):
     menu_url = models.CharField(max_length=50)
     delivery_price = models.DecimalField(max_digits=5, decimal_places=2)
 
+    class Meta:
+        verbose_name_plural = "Restauracja"
+        verbose_name = "Restauracja"
+
     def get_menu(self):
         return Dish.objects.dishes_for_restaurant(self)
 
@@ -16,6 +20,10 @@ class Restaurant(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=400)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "Kategoria"
+        verbose_name = "Kategoria"
 
     def __str__(self):
         return "{}".format(self.name)
@@ -31,6 +39,10 @@ class Dish(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category, default=None)
+
+    class Meta:
+        verbose_name_plural = "Danie"
+        verbose_name = "Danie"
 
     objects = DishesManager()
 
