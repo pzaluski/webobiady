@@ -19,6 +19,7 @@ class DailyOrdersList(ListView):
         return Order.objects.filter(settings=get_order_settings())
 '''
 
+
 @method_decorator(login_required, name='dispatch')
 class OrderCreate(CreateView):
     model = Order
@@ -59,7 +60,7 @@ class OrderUpdate(UpdateView):
     template_name = "orders/order_form_modal.html"
 
     def get_form_kwargs(self):
-        kwargs = super(OrderCreate, self).get_form_kwargs()
+        kwargs = super(OrderUpdate, self).get_form_kwargs()
         kwargs['order_settings'] = get_order_settings()
         return kwargs
 
@@ -163,6 +164,7 @@ class MessageCollectView(TemplateView):
                 'dishes': o.dishes.all(),
             }
             message.set_message_context(context=context)
+            #print(email)
             #print(context)
             message.send_message([email])
 
