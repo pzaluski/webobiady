@@ -36,6 +36,7 @@ class Migration(migrations.Migration):
                 ('order_date', models.DateField()),
                 ('purchaser', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='purchaser', to=settings.AUTH_USER_MODEL)),
                 ('restaurant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='restaurants.Restaurant')),
+                ('active', models.BooleanField(default=False, verbose_name='Aktywny')),
             ],
         ),
         migrations.AddField(
