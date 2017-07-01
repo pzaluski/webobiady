@@ -10,7 +10,7 @@ class OrderSettings(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, verbose_name="Restauracja")
     order_deadline = models.TimeField(verbose_name="Termin składania zamówień", default="10:30")
     purchaser = models.ForeignKey(User, related_name="purchaser", verbose_name="Kupujący")
-    order_date = models.DateField(verbose_name="Data zamówienia")
+    #order_date = models.DateField(verbose_name="Data zamówienia")
     active = models.BooleanField(default=False, verbose_name="Aktywny")
 
     class Meta:
