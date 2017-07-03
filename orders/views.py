@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse, render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, TemplateView, MonthArchiveView
+from django.views.generic import TemplateView, MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from main.utils import get_order_settings, EmailMessageCreator
 from .forms import OrderPurchaserForm, OrderForm
@@ -107,7 +107,7 @@ class PurchaserOrdersList(FormView):
     def get_success_url(self):
         return reverse('daily_orders')
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         op = request.POST['op']
         oid = request.POST['order_id']
         order = Order.objects.get(pk=oid)
@@ -137,8 +137,11 @@ class PurchaserOrderEdit(OrderUpdate):
 
 @method_decorator(login_required, name='dispatch')
 class MessageCollectView(TemplateView):
-    purchaser = get_order_settings().purchaser
-    orders = Order.objects.all_orders_for_today()
+
+    def __init__(self):
+        super(MessageCollectView, self).__init__()
+        self.purchaser = get_order_settings().purchaser
+        self.orders = Order.objects.all_orders_for_today()
 
     def get(self, request, *args, **kwargs):
         """
