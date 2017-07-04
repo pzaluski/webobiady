@@ -8,6 +8,7 @@ from main.utils import get_order_settings, EmailMessageCreator
 from .forms import OrderPurchaserForm, OrderForm
 from .models import Order
 from datetime import datetime
+import logging
 
 '''
 @method_decorator(login_required, name='dispatch')
@@ -18,6 +19,8 @@ class DailyOrdersList(ListView):
     def get_queryset(self):
         return Order.objects.filter(settings=get_order_settings())
 '''
+
+logger = logging.getLogger(__name__)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -168,6 +171,7 @@ class MessageCollectView(TemplateView):
             }
             message.set_message_context(context=context)
             print(email)
+            logger.error(email)
             #print(context)
             #message.send_message([email])
             #break
