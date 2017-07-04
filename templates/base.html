@@ -22,7 +22,7 @@
                         {% now "m" as current_month %}
                         <li><a href="{% url 'order_history' month=current_month year=current_year %}">Historia zamówień</a></li>
 
-                        {% if perms.userprofile.import_menu or user.is_superuser %}
+                        {% if perms.user.import_menu or user.is_superuser %}
                         <li><a href="{% url 'import_menu' %}">Import menu</a></li>
                         {% endif %}
 
