@@ -11,9 +11,11 @@ def home(request):
     purchaser = False
     os = get_order_settings()
     user_order = None
+
     if request.user.is_authenticated():
         if request.user == os.purchaser:
             purchaser = True
+
         try:
             user_order = Order.objects.get(
                 user_id=request.user.id,

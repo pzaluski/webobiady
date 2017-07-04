@@ -33,6 +33,11 @@ class UserProfile(models.Model):
             p = 'Nie'
         return 'Zamawiający: {0} Ilość zamówień: {1}'.format(p, self.get_orders_num())
 
+    class Meta:
+        permissions = (
+            ('import_menu', 'Import menu'),
+        )
+
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
