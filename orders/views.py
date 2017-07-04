@@ -170,6 +170,7 @@ class MessageCollectView(TemplateView):
             #print(email)
             #print(context)
             message.send_message([email])
+            #break
 
         return redirect('message_sent')
 
