@@ -167,7 +167,7 @@ class MessageCollectView(TemplateView):
                 'dishes': o.dishes.all(),
             }
             message.set_message_context(context=context)
-            print(email)
+            raise Exception (email)
             #print(context)
             #message.send_message([email])
             #break
