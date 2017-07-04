@@ -104,7 +104,6 @@ class PurchaserOrdersList(FormView):
     form_class = OrderPurchaserForm
 
     def get_context_data(self, **kwargs):
-        raise Exception ("HALIK")
         kwargs['object_list'] = Order.objects.all_orders_for_today().order_by('date_created')
         return super().get_context_data(**kwargs)
 
@@ -171,7 +170,7 @@ class MessageCollectView(TemplateView):
                 'dishes': o.dishes.all(),
             }
             message.set_message_context(context=context)
-            print(email)
+            raise Exception(email)
             logger.error(email)
             #print(context)
             #message.send_message([email])
