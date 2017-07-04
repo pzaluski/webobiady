@@ -1,5 +1,4 @@
 {% load staticfiles %}
-<!DOCTYPE html>
 <html lang="pl">
     <head>
         <title>WebObiady</title>
@@ -23,6 +22,10 @@
                         {% now "m" as current_month %}
                         <li><a href="{% url 'order_history' month=current_month year=current_year %}">Historia zamówień</a></li>
 
+                        {% if perms.userprofile.import_menu or user.is_superuser %}
+                        <li><a href="{% url 'import_menu' %}">Import menu</a></li>
+                        {% endif %}
+
                         {% if user.userprofile.is_purchaser %}
                         <li class="dropdown wo-panel-dropdown">
                           <a href="#"
@@ -36,10 +39,6 @@
                           <ul class="dropdown-menu">
                               <li><a href="{% url 'purchaser_edit' user.id %}">Edycja danych</a></li>
                               <li><a href="{% url 'daily_orders' %}">Dzisiejsze zamówienia</a></li>
-                              {% if user.is_superuser %}
-                                <li role="separator" class="divider"></li>
-                                <li><a href="{% url 'import_menu' %}">Import menu</a></li>
-                              {% endif %}
                           </ul>
                         </li>
                         {% endif %}
