@@ -174,7 +174,7 @@ class MessageCollectView(TemplateView):
             #logger.error(email)
             #print(context)
             message.send_message([email])
-            break
+            #break
 
         return redirect('message_sent')
 
