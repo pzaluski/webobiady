@@ -167,9 +167,9 @@ class MessageCollectView(TemplateView):
                 'dishes': o.dishes.all(),
             }
             message.set_message_context(context=context)
-            #print(email)
+            print(email)
             #print(context)
-            message.send_message([email])
+            #message.send_message([email])
             #break
 
         return redirect('message_sent')
