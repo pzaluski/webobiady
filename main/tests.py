@@ -5,26 +5,26 @@ from restaurants.models import Restaurant
 from django.contrib.auth.models import User
 
 
-def createUser(name, password, email=None):
+def create_user(name, password, email=None):
     return User.objects.create_user(username=name, email=email, password=password)
 
 
-def createRestaurant(name, url=None, delivery_price=0):
+def create_restaurant(name, url=None, delivery_price=0):
     return Restaurant.objects.create(name=name, menu_url=url, delivery_price=delivery_price)
 
 
-def createOrderSettings(restaurant, deadline, purchaser, active):
+def create_order_settings(restaurant, deadline, purchaser, active):
     return OrderSettings.objects.create(restaurant=restaurant, order_deadline=deadline, purchaser=purchaser, active=active)
 
 
 class HomeViewTests(TestCase):
 
     def setUp(self):
-        restaurant = createRestaurant('AktywnaRestauracja', 'webobiady.pl', 1)
-        purchaser = createUser('purchaser', 'tester', 'tester@tester.pl')
-        createOrderSettings(restaurant, '10:10', purchaser, True)
-        restaurant2 = createRestaurant('NieaktywnaRestauracja', 'http://webobiady.pl', 2)
-        createOrderSettings(restaurant2, '10:20', purchaser, False)
+        restaurant = create_restaurant('AktywnaRestauracja', 'webobiady.pl', 1)
+        purchaser = create_user('purchaser', 'tester', 'tester@tester.pl')
+        create_order_settings(restaurant, '10:10', purchaser, True)
+        restaurant2 = create_restaurant('NieaktywnaRestauracja', 'http://webobiady.pl', 2)
+        create_order_settings(restaurant2, '10:20', purchaser, False)
 
     def test_home_view_no_user(self):
 
