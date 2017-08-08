@@ -46,6 +46,7 @@ class OrderCreate(CreateView):
         order = form.save(commit=False)
         order.settings = form.order_settings
         order.user = self.request.user
+        order.purchaser = form.order_settings.purchaser
         order.price = 0
         order = form.save()
 

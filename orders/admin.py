@@ -10,7 +10,7 @@ class OrderSettingsModelAdmin(admin.ModelAdmin):
 
 class OrderModelAdmin(admin.ModelAdmin):
     list_display = ["__str__", "date_created", "paid"]
-    list_filter = ["date_created", "paid", "user", "settings"]
+    list_filter = ["date_created", "paid", "user", "settings", "purchaser"]
     list_editable = ["paid"]
 
     class Meta:

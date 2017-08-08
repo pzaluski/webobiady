@@ -63,8 +63,9 @@ class Order(models.Model):
     paid = models.BooleanField(default=False, verbose_name="Zapłacono")
     date_created = models.DateField(auto_now_add=True, verbose_name="Data zamówienia")
     order_status = models.CharField(max_length=10, choices=ORDER_STATUS, default='NEW', verbose_name="Status zamówienia")
-    user = models.ForeignKey(User, verbose_name="Zamawiający")
+    user = models.ForeignKey(User, verbose_name="Zamawiający", related_name="user")
     comment = models.CharField(max_length=4000, verbose_name="Komentarz", blank=True)
+    purchaser = models.ForeignKey(User, null=True, verbose_name="Kupujący", related_name="order_purchaser")
 
     class Meta:
         verbose_name_plural = "Zamówienie"
@@ -76,10 +77,10 @@ class Order(models.Model):
         return self.settings.restaurant
 
     def get_purchaser(self):
-        purchaser_name = self.settings.purchaser.username
+        purchaser_name = self.purchaser.username
 
-        if self.settings.purchaser.userprofile.purchaser_name:
-            purchaser_name = self.settings.purchaser.userprofile.purchaser_name
+        if self.purchaser.userprofile.purchaser_name:
+            purchaser_name = self.purchaser.userprofile.purchaser_name
 
         return purchaser_name
 
