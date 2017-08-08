@@ -109,7 +109,8 @@ class Order(models.Model):
             self.user.username,
             self.price,
             self.date_created,
-            self.settings.restaurant.name
+            self.settings.restaurant.name,
+            self.purchaser.username,
         )
 
 
