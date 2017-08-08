@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Restaurant, Category, Dish
+from .models import Restaurant, Dish
 
 
 class DishModelAdmin(admin.ModelAdmin):
@@ -11,5 +11,4 @@ class DishModelAdmin(admin.ModelAdmin):
         model = Dish
 
 admin.site.register(Restaurant)
-admin.site.register(Category)
 admin.site.register(Dish, DishModelAdmin)
