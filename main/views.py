@@ -10,6 +10,8 @@ from datetime import datetime
 def home(request):
     purchaser = False
     os = get_order_settings()
+    if os.active == False:
+        return render(request, "main/home_closed.html", {})
     user_order = None
 
     if request.user.is_authenticated():

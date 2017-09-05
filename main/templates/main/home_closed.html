@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<html lang="pl">
+    <head>
+        <title>WebObiady</title>
+
+        {% block styling %}
+            <link rel="stylesheet" href="{% static 'webobiady/bootstrap/css/bootstrap.min.css' %}">
+            <link rel="stylesheet" href="{% static 'webobiady/style.css' %}?{% now 'U' %}">
+        {% endblock styling %}
+        <meta name="title" content="WebObiady - zamów obiad na dziś">
+        <meta name="keywords" content="webobiady">
+    </head>
+    <body>
+
+
+        <div class="jumbotron wo-jumbotron">
+            <div class="col-md-offset-1 col-md-4">
+                <a href="{% url 'webobiady_home' %}"><img src="{% static 'webobiady/images/burger.png' %}" alt="" /></a>
+            </div>
+            <div class="col-md-7">
+                <h1>WebObiady<span class="h1-text"><br />Dzisiaj zamknięte</span></h1>
+            </div>
+
+            <!-- <img src="{% static 'webobiady/images/pizza.png' %}" alt="" /> -->
+        </div>
+
+
+        <div class="container">
+
+            <div class="page-header wo-page-header">
+                <h2>...ale Bistro na 9 może jest otwarte... :)</h2>
+
+            </div>
+
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+    <footer>
+
+    </footer>
+    {% block javascript %}
+        <script src="{% static 'webobiady/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'webobiady/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'webobiady/main.js' %}?{% now 'U' %}"></script>
+    {% endblock javascript %}
+    </body>
+
+
+
+
+</html>

@@ -10,26 +10,28 @@ def get_order_settings():
     try:
         os = OrderSettings.objects.get(active=True)
     except ObjectDoesNotExist:
-        try:
-            os = OrderSettings.objects.last()
-        except ObjectDoesNotExist:
-            os = OrderSettings()
-            try:
-                os.restaurant = Restaurant.objects.first()
-            except ObjectDoesNotExist:
-                r = Restaurant(name="Zagrycha", delivery_price=0)
-                r.save()
-                os.restaurant = r
-            try:
-                os.purchaser = User.objects.get(username="mbork")
-            except ObjectDoesNotExist:
-                os.purchaser = User.objects.first()
-            os.order_deadline = "10:30"
-            os.active = True
-            os.save()
-            return os
-        os.active = True
-        os.save()
+        os = OrderSettings()
+        os.active = False
+        # try:
+        #     os = OrderSettings.objects.last()
+        # except ObjectDoesNotExist:
+        #     os = OrderSettings()
+        #     try:
+        #         os.restaurant = Restaurant.objects.first()
+        #     except ObjectDoesNotExist:
+        #         r = Restaurant(name="Zagrycha", delivery_price=0)
+        #         r.save()
+        #         os.restaurant = r
+        #     try:
+        #         os.purchaser = User.objects.get(username="mbork")
+        #     except ObjectDoesNotExist:
+        #         os.purchaser = User.objects.first()
+        #     os.order_deadline = "10:30"
+        #     os.active = True
+        #     os.save()
+        #     return os
+        # os.active = True
+        # os.save()
     return os
 
 
